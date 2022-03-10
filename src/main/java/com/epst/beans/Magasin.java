@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Magasin {
 
-    public Magasin(int id, String libelle, String descirption, byte[] piecejointe, String date, int type){
+    public Magasin(int id, String libelle, String descirption, byte[] piecejointe, int type, String date){
         this.date = date; this.description = descirption; this.id = id; this.libelle = libelle; this.piecejointe = piecejointe;
         this.type = type;
     }

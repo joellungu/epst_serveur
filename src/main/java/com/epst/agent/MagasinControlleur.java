@@ -35,12 +35,12 @@ public class MagasinControlleur {
         return u;
     }
 
-    @Path("/all")
+    @Path("/all/{type}")
     @GET()
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Magasin> getAllAgents() {
+    public List<Magasin> getAllAgents(@PathParam("type") int type) {
         //
-        List<Magasin> listeU = modelMagasin.getAllMagasin();
+        List<Magasin> listeU = modelMagasin.getAllMagasin(type);
         //listeU.forEach((u)->{
         //  System.out.println("Element nom: "+u.nom);
         //});

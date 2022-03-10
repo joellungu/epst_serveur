@@ -45,8 +45,8 @@ public class ModelMagasin {
                     résultats.getString(2),
                     résultats.getString(3),
                     résultats.getBytes(4),
-                    résultats.getString(5),
-                    résultats.getInt(6)
+                    résultats.getInt(5),
+                    résultats.getString(6)
                 );
                 //
                 System.out.println();
@@ -59,9 +59,10 @@ public class ModelMagasin {
         return magasin;
     }
     //
-    public List<Magasin> getAllMagasin(){
+    public List<Magasin> getAllMagasin(int type){
         List<Magasin> liste = new LinkedList<>();
-        String requete = "SELECT * FROM magasin";
+        System.out.println("le type vaut: "+type);
+        String requete = "SELECT * FROM magasin where type = "+type;
 
         try {
             Statement stmt = con.createStatement();
@@ -89,9 +90,9 @@ public class ModelMagasin {
                         résultats.getInt(1),
                         résultats.getString(2),
                         résultats.getString(3),
-                        résultats.getBytes(4),
-                        résultats.getString(5),
-                        résultats.getInt(6)
+                        null,
+                        résultats.getInt(5),
+                        résultats.getString(6)
                     )
                 );
 
