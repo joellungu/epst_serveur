@@ -1,4 +1,4 @@
-package com.epst.agent;
+package com.epst.controlleurs;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class MagasinControlleur {
     @Path("/{id}")
     @GET()
     @Produces(MediaType.APPLICATION_JSON)
-    public Magasin getAgent(@PathParam("id") int id) {
+    public Magasin getMagasint(@PathParam("id") int id) {
         Magasin u = modelMagasin.getMagasin(id);
         //Todo todo = new Todo();
         //todo.setSummary(id);
@@ -38,7 +38,7 @@ public class MagasinControlleur {
     @Path("/all/{type}")
     @GET()
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Magasin> getAllAgents(@PathParam("type") int type) {
+    public List<Magasin> getAllMagasints(@PathParam("type") int type) {
         //
         List<Magasin> listeU = modelMagasin.getAllMagasin(type);
         //listeU.forEach((u)->{
@@ -60,7 +60,7 @@ public class MagasinControlleur {
     @POST()
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response savetAgent(Magasin Magasin) {
+    public Response savetMagasint(Magasin Magasin) {
         int t = modelMagasin.saveMagasin(Magasin);
         System.out.println("votre element: "+
         Magasin.getDate()+":\n__:"+
@@ -80,7 +80,7 @@ public class MagasinControlleur {
 
     @PUT()
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateAgent(Magasin Magasin) {
+    public Response updateMagasint(Magasin Magasin) {
 
         int t = modelMagasin.miseaJourMagasin(Magasin);
         //System.out.println(Magasin.adresse);
@@ -94,7 +94,7 @@ public class MagasinControlleur {
     @Path("/{id}")
     @DELETE()
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteAgent(@PathParam("id") int id) {
+    public Response deleteMagasint(@PathParam("id") int id) {
         int t = modelMagasin.supprimerMagasin(id);
         ObjectNode json = mapper.createObjectNode();
         //
@@ -105,3 +105,4 @@ public class MagasinControlleur {
 
     
 }
+
