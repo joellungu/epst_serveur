@@ -32,7 +32,7 @@ public class ModelPlainte {
 
     public Plainte getPlainte(int id){
         Plainte Plainte = new Plainte();
-        String requete = "SELECT * FROM Plainte where id = "+id;
+        String requete = "SELECT * FROM depot_plainte where id = "+id;
         //
         try {
             Statement stmt = con.createStatement();
@@ -80,7 +80,7 @@ public class ModelPlainte {
     public List<Plainte> getAllPlainte(String statut){
         List<Plainte> liste = new LinkedList<>();
         System.out.println("le type vaut: "+statut);
-        String requete = "SELECT * FROM plainte where statut = "+statut+"";
+        String requete = "SELECT * FROM depot_plainte WHERE id_statut = '"+statut+"'";
         //statut == "0" ? "SELECT * FROM plainte" : "SELECT * FROM plainte where statut = "+statut;
 
         try {
