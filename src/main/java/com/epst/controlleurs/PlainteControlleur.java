@@ -39,7 +39,7 @@ public class PlainteControlleur {
     @Path("/all/{statut}")
     @GET()
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Plainte> getAllPlaintes(@PathParam("statut") int statut) {
+    public List<Plainte> getAllPlaintes(@PathParam("statut") String statut) {
         //
         List<Plainte> listeU = modelPlainte.getAllPlainte(statut);
         //listeU.forEach((u)->{
@@ -64,10 +64,10 @@ public class PlainteControlleur {
     public Response savetPlainte(Plainte Plainte) {
         int t = modelPlainte.savePlainte(Plainte);
         System.out.println("votre element: "+
-        Plainte.getDate()+":\n__:"+
+        Plainte.getTelephone()+":\n__:"+
             Plainte.getDate()+":\n__:"+
             Plainte.getEmail()+":\n__:"+
-            Plainte.getStatut()+":\n__:"
+            Plainte.getEnvoyeur()+":\n__:"
         );
         //
 

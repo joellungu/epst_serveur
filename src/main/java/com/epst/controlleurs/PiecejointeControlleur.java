@@ -44,20 +44,18 @@ public class PiecejointeControlleur {
         return listeU;//Arrays.asList(todo,todo2);
     }
 
-    //@Path("")
+    @Path("/{piecejointe_id}/{type}")
     @POST()
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response savetPlainte(Piecejointe piecejointe) {
-        int t = modelPlainte.savePiecejointe(piecejointe);
-        /*
-        System.out.println("votre element: "+
-        Plainte.getDate()+":\n__:"+
-            Plainte.getDate()+":\n__:"+
-            Plainte.getEmail()+":\n__:"+
-            Plainte.getStatut()+":\n__:"
+    public Response savetPlainte(@PathParam("piecejointe_id") int piecejointe_id, @PathParam("type") String type, byte[] piecejointe) {
+        int t = modelPlainte.savePiecejointe(piecejointe_id+"", type, piecejointe);
+        
+        System.out.println("votre element_______: "+
+        piecejointe_id+":\n__:"+
+        type+":\n__:"
         );
-        */
+        
         //
 
         ObjectNode json = mapper.createObjectNode();

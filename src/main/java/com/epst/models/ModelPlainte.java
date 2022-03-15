@@ -58,11 +58,13 @@ public class ModelPlainte {
                     résultats.getString(3),
                     résultats.getString(4),
                     résultats.getString(5),
+                    résultats.getString(6),
                     résultats.getString(7),
                     résultats.getString(8),
                     résultats.getString(9),
                     résultats.getString(10),
-                    résultats.getString(11)
+                    résultats.getString(11),
+                    résultats.getString(12)
                 );
                 //
                 System.out.println();
@@ -75,10 +77,11 @@ public class ModelPlainte {
         return Plainte;
     }
     //
-    public List<Plainte> getAllPlainte(int statut){
+    public List<Plainte> getAllPlainte(String statut){
         List<Plainte> liste = new LinkedList<>();
         System.out.println("le type vaut: "+statut);
-        String requete = "SELECT * FROM plainte where statut = "+statut;
+        String requete = "SELECT * FROM plainte where statut = "+statut+"";
+        //statut == "0" ? "SELECT * FROM plainte" : "SELECT * FROM plainte where statut = "+statut;
 
         try {
             Statement stmt = con.createStatement();
@@ -104,15 +107,17 @@ public class ModelPlainte {
                 liste.add(
                     new Plainte(
                         résultats.getInt(1),
-                    résultats.getString(2),
-                    résultats.getString(3),
-                    résultats.getString(4),
-                    résultats.getString(5),
-                    résultats.getString(7),
-                    résultats.getString(8),
-                    résultats.getString(9),
-                    résultats.getString(10),
-                    résultats.getString(11)
+                        résultats.getString(2),
+                        résultats.getString(3),
+                        résultats.getString(4),
+                        résultats.getString(5),
+                        résultats.getString(6),
+                        résultats.getString(7),
+                        résultats.getString(8),
+                        résultats.getString(9),
+                        résultats.getString(10),
+                        résultats.getString(11),
+                        résultats.getString(12)
                     )
                 );
 
@@ -181,21 +186,23 @@ public class ModelPlainte {
         try{
             piecejointe_id = getId();
             //
-            String sql = "INSERT INTO plainte (id, date, telephone, email, province, id_tiquet, message, statut, piecejointe_id, refference) "+
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO depot_plainte (id, envoyeur, telephone, email, destinateur, id_tiquet, message, id_statut, piecejointe_id, reference, date, province) "+
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setInt(1, getId());
-            statement.setString(2, plainte.getDate()); 
+            statement.setString(2, plainte.getEnvoyeur()); 
             statement.setString(3, plainte.getTelephone());
             statement.setString(4, plainte.getEmail());
-            statement.setString(5, plainte.getProvince());
+            statement.setString(5, plainte.getDestinateur());
             statement.setString(6, plainte.getId_tiquet());
             statement.setString(7, plainte.getMessage());
-            statement.setString(8, plainte.getStatut());
-            statement.setString(9, piecejointe_id+"");
-            statement.setString(10, plainte.getRefference());
-            
+            statement.setString(8, plainte.getId_statut());
+            statement.setString(9, ""+piecejointe_id);
+            statement.setString(10, plainte.getReference());
+            statement.setString(11, plainte.getDate());
+            statement.setString(12, plainte.getProvince());
+            //
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
                 System.out.println("A new user was inserted successfully!");
@@ -208,12 +215,13 @@ public class ModelPlainte {
             System.out.println("erreur du à: "+ex.getCause());
             System.out.println("erreur du à: "+ex.getStackTrace());
             t = 0;
+            piecejointe_id = 0;
         }
 
         return piecejointe_id;
     }
 
-    public int savePiecejointe(Piecejointe piecejointe){
+    public int savePiecejointe(String piecejointe_id, String type, byte[] piecejointe){
         int t = 0;
 
         //int piecejointe_id = 0;
@@ -227,10 +235,10 @@ public class ModelPlainte {
     
             PreparedStatement statement = con.prepareStatement(sql);
             //statement.setInt(1, piecejointe.getId());
-            statement.setInt(1, piecejointe.getId()); 
-            statement.setString(2, piecejointe.getPiecejointe_id());
-            statement.setBytes(3, piecejointe.getDonne());
-            statement.setInt(4, piecejointe.getType()); 
+            statement.setInt(1, getId()); 
+            statement.setString(2, piecejointe_id);
+            statement.setBytes(3, piecejointe);
+            statement.setString(4, type);
             
             
             int rowsInserted = statement.executeUpdate();
@@ -259,23 +267,26 @@ public class ModelPlainte {
         Plainte.getProvince()+":__:Province\n"
                 );
         try{
-            String sql = "UPDATE plainte SET date = ?, telephone = ?, email = ?, province = ?, id_tiquet = ?, message = ?, statut = ?, piecejointe_id, refference = ? WHERE id = ?";
+            String sql = "UPDATE plainte SET envoyeur = ? telephone = ? email = ? destinateur = ? id_tiquet = ? message = ? id_statut = ? piecejointe_id = ? reference = ? date = ? province WHERE id = ?";
+            //"UPDATE plainte SET date = ?, telephone = ?, email = ?, province = ?, id_tiquet = ?, message = ?, statut = ?, piecejointe_id = ?, reference = ? WHERE id = ?";
             //
             PreparedStatement statement = con.prepareStatement(sql);
 
             //
             //statement.setInt(1, plainte.getId());
-            statement.setString(1, plainte.getDate()); 
+            statement.setString(1, plainte.getEnvoyeur()); 
             statement.setString(2, plainte.getTelephone());
             statement.setString(3, plainte.getEmail());
-            statement.setString(4, plainte.getProvince());
+            statement.setString(4, plainte.getDestinateur());
             statement.setString(5, plainte.getId_tiquet());
             statement.setString(6, plainte.getMessage());
-            statement.setString(7, plainte.getStatut());
-            statement.setString(8, plainte.getRefference());
-            statement.setString(9, plainte.getPiecejointe_id());
+            statement.setString(7, plainte.getId_statut());
+            statement.setString(8, plainte.getPiecejointe_id());
+            statement.setString(9, plainte.getReference());
+            statement.setString(10, plainte.getDate());
+            statement.setString(11, plainte.getProvince());
             //
-            statement.setInt(9, plainte.getId());
+            statement.setInt(12, plainte.getId());
             //
             t = statement.executeUpdate();
 
@@ -291,7 +302,8 @@ public class ModelPlainte {
         //
         Random r = new Random();
         //
-        t = Integer.parseInt("1"+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+"");
+        t = Integer.parseInt("1"+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+"");
         return t;
     }
+
 }
