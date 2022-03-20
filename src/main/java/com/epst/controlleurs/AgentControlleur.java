@@ -87,7 +87,17 @@ public class AgentControlleur {
 
         ObjectNode json = mapper.createObjectNode();
         //
-        //json.put("status", "ok");
+        json.put("status", "votre element: "+
+        utilisateur.getAdresse()+":\n__:"+
+            utilisateur.getDate_de_naissance()+":\n__:"+
+            utilisateur.getEmail()+":\n__:"+
+            utilisateur.getNom()+":\n__:"+
+            utilisateur.getNumero()+":\n__:"+
+            utilisateur.getPostnom()+":\n__:"+
+            utilisateur.getPrenom()+":\n__:"+
+            utilisateur.getRole()+":\n__:"+
+            utilisateur.getMatricule()+":\n__:"+
+            utilisateur.getId_statut());
         json.put("save", t);
         
         return Response.status(Response.Status.CREATED).entity(json).build();
