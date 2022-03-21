@@ -38,7 +38,8 @@ public class MagasinControlleur {
     @Path("/all/{type}")
     @GET()
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Magasin> getAllMagasints(@PathParam("type") int type) {
+    public List<Magasin> getAllMagasints(@PathParam("type") String type) {
+        System.out.println("Element type: "+type);
         //
         List<Magasin> listeU = modelMagasin.getAllMagasin(type);
         //listeU.forEach((u)->{

@@ -45,7 +45,7 @@ public class ModelMagasin {
                     résultats.getString(2),
                     résultats.getString(3),
                     résultats.getBytes(4),
-                    résultats.getInt(5),
+                    résultats.getString(5),
                     résultats.getString(6)
                 );
                 //
@@ -59,10 +59,10 @@ public class ModelMagasin {
         return magasin;
     }
     //
-    public List<Magasin> getAllMagasin(int type){
+    public List<Magasin> getAllMagasin(String type){
         List<Magasin> liste = new LinkedList<>();
         System.out.println("le type vaut: "+type);
-        String requete = "SELECT * FROM magasin where type = "+type;
+        String requete = "SELECT id, libelle, description, date_mise_en_ligne, types FROM magasin where types = '"+type+"'";
 
         try {
             Statement stmt = con.createStatement();
@@ -78,11 +78,7 @@ public class ModelMagasin {
                 résultats.getString(3)+":__:email\n"+
                 résultats.getString(4)+":__:nom\n"+
                 résultats.getString(5)+":__:numero\n"+
-                résultats.getString(6)+":__:postnom\n"+
-                résultats.getString(7)+":__:prenom\n"+
-                résultats.getString(8)+":__:role\n"+
-                résultats.getString(10)+":__:matricule\n"+
-                résultats.getString(11)+":__:id_statut\n"
+                résultats.getString(6)+":__:postnom\n"
                 );
                 */
                 liste.add(
@@ -91,8 +87,8 @@ public class ModelMagasin {
                         résultats.getString(2),
                         résultats.getString(3),
                         null,
-                        résultats.getInt(5),
-                        résultats.getString(6)
+                        résultats.getString(4),
+                        résultats.getString(5)
                     )
                 );
 
@@ -118,7 +114,7 @@ public class ModelMagasin {
 
         //
         try{
-            String sql = "INSERT INTO magasin (id, libelle, description, piecejointe, date_mise_en_ligne, type) "+
+            String sql = "INSERT INTO magasin (id, libelle, description, piecejointe, date_mise_en_ligne, types) "+
             "VALUES (?, ?, ?, ?, ?, ?)";
     
             PreparedStatement statement = con.prepareStatement(sql);
@@ -127,7 +123,7 @@ public class ModelMagasin {
             statement.setString(3, Magasin.getDescription());
             statement.setBytes(4, Magasin.getPiecejointe());
             statement.setString(5, Magasin.getDate());
-            statement.setInt(6, Magasin.getType());
+            statement.setString(6, Magasin.getTypes());
             
             
             int rowsInserted = statement.executeUpdate();
@@ -180,7 +176,7 @@ public class ModelMagasin {
         Magasin.getLibelle()+":__:nom\n"
                 );
         try{
-            String sql = "UPDATE magasin SET libelle = ?, description = ?, piecejointe = ?, date = ?, type = ? WHERE id = ?";
+            String sql = "UPDATE magasin SET libelle = ?, description = ?, piecejointe = ?, date = ?, types = ? WHERE id = ?";
             //
             PreparedStatement statement = con.prepareStatement(sql);
 
@@ -190,7 +186,7 @@ public class ModelMagasin {
             statement.setString(2, Magasin.getDescription());
             statement.setBytes(3, Magasin.getPiecejointe());
             statement.setString(4, Magasin.getDate());
-            statement.setInt(5, Magasin.getType());
+            statement.setString(5, Magasin.getTypes());
             //
             statement.setInt(6, Magasin.getId());
 

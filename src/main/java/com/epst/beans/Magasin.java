@@ -17,9 +17,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Magasin {
 
-    public Magasin(int id, String libelle, String descirption, byte[] piecejointe, int type, String date){
+    public Magasin(int id, String libelle, String descirption, byte[] piecejointe, String types, String date){
         this.date = date; this.description = descirption; this.id = id; this.libelle = libelle; this.piecejointe = piecejointe;
-        this.type = type;
+        this.types = types;
     }
 
     public int id;
@@ -32,7 +32,7 @@ public class Magasin {
 
     public byte[] piecejointe;
 
-    public int type;
+    public String types;
 
 
 }
