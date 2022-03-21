@@ -118,7 +118,7 @@ public class ModelMagasin {
 
         //
         try{
-            String sql = "INSERT INTO magasin (id, libelle, description, piecejointe, date, type) "+
+            String sql = "INSERT INTO magasin (id, libelle, description, piecejointe, date_mise_en_ligne, type) "+
             "VALUES (?, ?, ?, ?, ?, ?)";
     
             PreparedStatement statement = con.prepareStatement(sql);

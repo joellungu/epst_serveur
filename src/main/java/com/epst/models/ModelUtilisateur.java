@@ -46,8 +46,8 @@ public class ModelUtilisateur {
                     résultats.getString(5),
                     résultats.getString(6),
                     résultats.getString(7),
-                    résultats.getString(8),
-                    résultats.getInt(9),
+                    résultats.getInt(8),
+                    résultats.getString(9),
                     résultats.getString(10),
                     résultats.getString(11)
                 );
@@ -73,7 +73,7 @@ public class ModelUtilisateur {
             boolean encore = résultats.next();
 
             while (encore) {
-                /*
+                
                 System.out.print("****id: "+résultats.getInt(1)+"_ ad:"+":\n__:\n"+
                 résultats.getInt(1)+":__:id\n"+
                 résultats.getString(2)+":__:adresse\n"+
@@ -86,7 +86,7 @@ public class ModelUtilisateur {
                 résultats.getString(10)+":__:matricule\n"+
                 résultats.getString(11)+":__:id_statut\n"
                 );
-                */
+                
                 liste.add(
                     new Utilisateur(
                         résultats.getInt(1),
@@ -96,8 +96,8 @@ public class ModelUtilisateur {
                         résultats.getString(5),
                         résultats.getString(6),
                         résultats.getString(7),
-                        résultats.getString(8),
-                        résultats.getInt(9),
+                        résultats.getInt(8),
+                        résultats.getString(9),
                         résultats.getString(10),
                         résultats.getString(11)
                     )
@@ -125,21 +125,21 @@ public class ModelUtilisateur {
 
         //
         try{
-            String sql = "INSERT INTO agent_epst (id, adresse, date_de_naissance, email, nom, numero, postnom, prenom, role, matricule, id_statut) "+
+            String sql = "INSERT INTO agent_epst (id,nom,postnom,prenom,numero,email, adresse,role,matricule,id_statut, date_de_naissance) "+
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
  
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setLong(1, getId());
-            statement.setString(2, utilisateur.getAdresse());
-            statement.setString(3, utilisateur.getDate_de_naissance());
-            statement.setString(4, utilisateur.getEmail());
-            statement.setString(5, utilisateur.getNom());
-            statement.setString(6, utilisateur.getNumero());
-            statement.setString(7, utilisateur.getPostnom());
-            statement.setString(8, utilisateur.getPrenom());
-            statement.setInt(9, utilisateur.getRole());
-            statement.setString(10, utilisateur.getMatricule());
-            statement.setString(11, utilisateur.getId_statut());
+            statement.setString(2, utilisateur.getNom());
+            statement.setString(3, utilisateur.getPostnom());
+            statement.setString(4, utilisateur.getPrenom());
+            statement.setString(5, utilisateur.getNumero());
+            statement.setString(6, utilisateur.getEmail());
+            statement.setString(7, utilisateur.getAdresse());
+            statement.setInt(8, utilisateur.getRole());
+            statement.setString(9, utilisateur.getMatricule());
+            statement.setString(10, utilisateur.getId_statut());
+            statement.setString(11, utilisateur.getDate_de_naissance());
             
             
             int rowsInserted = statement.executeUpdate();
@@ -198,22 +198,22 @@ public class ModelUtilisateur {
         utilisateur.getId_statut()+":__:id_statut\n"
                 );
         try{
-            String sql = "UPDATE agent_epst SET adresse = ?, date_de_naissance = ?, email = ?, nom = ?, numero = ?, postnom = ?, prenom = ?, role = ?, matricule = ?, id_statut = ?  WHERE id = ?";
-            //
+            String sql = "UPDATE agent_epst SET nom = ?, postnom = ?, prenom = ?, numero = ?, email = ?, adresse = ?, role = ?, matricule = ?, id_statut = ?, date_de_naissance = ?  WHERE id = ?";
+            //,,,,, ,,,, 
             PreparedStatement statement = con.prepareStatement(sql);
 
             
             //
-            statement.setString(1, utilisateur.getAdresse());
-            statement.setString(2, utilisateur.getDate_de_naissance());
-            statement.setString(3, utilisateur.getEmail());
-            statement.setString(4, utilisateur.getNom());
-            statement.setString(5, utilisateur.getNumero());
-            statement.setString(6, utilisateur.getPostnom());
-            statement.setString(7, utilisateur.getPrenom());
-            statement.setInt(8, utilisateur.getRole());
-            statement.setString(9, utilisateur.getMatricule());
-            statement.setString(10, utilisateur.getId_statut());
+            statement.setString(1, utilisateur.getNom());
+            statement.setString(2, utilisateur.getPostnom());
+            statement.setString(3, utilisateur.getPrenom());
+            statement.setString(4, utilisateur.getNumero());
+            statement.setString(5, utilisateur.getEmail());
+            statement.setString(6, utilisateur.getAdresse());
+            statement.setInt(7, utilisateur.getRole());
+            statement.setString(8, utilisateur.getMatricule());
+            statement.setString(9, utilisateur.getId_statut());
+            statement.setString(10, utilisateur.getDate_de_naissance());
             //
             statement.setInt(11, utilisateur.getId());
 

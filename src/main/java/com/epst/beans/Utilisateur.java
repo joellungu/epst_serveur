@@ -17,18 +17,32 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Utilisateur {
 
+    /*
+                statement.setLong(1, getId());
+            statement.setString(2, utilisateur.getNom());
+            statement.setString(3, utilisateur.getPostnom());
+            statement.setString(4, utilisateur.getPrenom());
+            statement.setString(5, utilisateur.getNumero());
+            statement.setString(6, utilisateur.getEmail());
+            statement.setString(7, utilisateur.getAdresse());
+            statement.setInt(8, utilisateur.getRole());
+            statement.setString(9, utilisateur.getMatricule());
+            statement.setString(10, utilisateur.getId_statut());
+            statement.setString(11, utilisateur.getDate_de_naissance());
+                */
     public Utilisateur(
              int id,
-             String adresse,
-             String date_de_naissance,
+             String nom,
+             String postnom,
+             String prenom,
+             String numero,
              String email,
-            String nom,
-            String numero,
-            String postnom,
-            String prenom,
-            int role,
-            String matricule,
-            String id_statut
+             String adresse,
+             int role,
+             String matricule,
+             String id_statut,
+             String date_de_naissance
+            
         ){
         this.adresse = adresse;
         this.date_de_naissance = date_de_naissance;
