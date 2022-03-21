@@ -120,8 +120,8 @@ public class ModelUtilisateur {
         return liste;
     }
 
-    public int saveUtilisateur(Utilisateur utilisateur){
-        int t = 0;
+    public String saveUtilisateur(Utilisateur utilisateur){
+        String t = "";
 
         //
         try{
@@ -146,14 +146,14 @@ public class ModelUtilisateur {
             if (rowsInserted > 0) {
                 System.out.println("A new user was inserted successfully!");
             }
-            t = rowsInserted;
+            t = "A new user was inserted successfully!";
         }catch(Exception ex){
             System.out.println("erreur du à: "+ex);
             System.out.println("erreur du à: "+ex.getMessage());
             System.out.println("erreur du à: "+ex.getLocalizedMessage());
             System.out.println("erreur du à: "+ex.getCause());
             System.out.println("erreur du à: "+ex.getStackTrace());
-            t = 0;
+            t = ""+ex+"\n"+ex.getMessage()+"\n"+ex.getLocalizedMessage()+"\n"+ex.getCause()+"\n"+ex.getStackTrace();
         }
 
         return t;

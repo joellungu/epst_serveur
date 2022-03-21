@@ -70,7 +70,7 @@ public class AgentControlleur {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response savetAgent(Utilisateur utilisateur) {
-        int t = modelUtilisateur.saveUtilisateur(utilisateur);
+        String t = modelUtilisateur.saveUtilisateur(utilisateur);
         System.out.println("votre element: "+
         utilisateur.getAdresse()+":\n__:"+
             utilisateur.getDate_de_naissance()+":\n__:"+
