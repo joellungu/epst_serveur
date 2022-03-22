@@ -41,7 +41,8 @@ public class Utilisateur {
              int role,
              String matricule,
              String id_statut,
-             String date_de_naissance
+             String date_de_naissance,
+             String mdp
             
         ){
         this.adresse = adresse;
@@ -55,6 +56,7 @@ public class Utilisateur {
         this.postnom = postnom;
         this.role = role;
         this.prenom = prenom;
+        this.mdp = mdp;
     }
 
     public int id;
@@ -78,4 +80,6 @@ public class Utilisateur {
     public String matricule;
 
     public String id_statut;
+
+    public String mdp;
 }

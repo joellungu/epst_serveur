@@ -49,7 +49,8 @@ public class ModelUtilisateur {
                     résultats.getInt(8),
                     résultats.getString(9),
                     résultats.getString(10),
-                    résultats.getString(11)
+                    résultats.getString(11),
+                    résultats.getString(12)
                 );
                 //
                 System.out.println();
@@ -62,6 +63,43 @@ public class ModelUtilisateur {
         return utilisateur;
     }
     //
+    public Utilisateur getUtilisateur(String matricule, String mdp){
+        Utilisateur utilisateur = new Utilisateur();
+        String requete = "SELECT * FROM agent_epst where matricule = "+matricule+" and mdp";
+        //
+        try {
+            Statement stmt = con.createStatement();
+            résultats = stmt.executeQuery(requete);
+            //
+            boolean encore = résultats.next();
+
+            while (encore) {
+                utilisateur = new Utilisateur(
+                    résultats.getInt("id"),
+                    résultats.getString(2),
+                    résultats.getString(3),
+                    résultats.getString(4),
+                    résultats.getString(5),
+                    résultats.getString(6),
+                    résultats.getString(7),
+                    résultats.getInt(8),
+                    résultats.getString(9),
+                    résultats.getString(10),
+                    résultats.getString(11),
+                    résultats.getString(12)
+                );
+                //
+                System.out.println();
+                encore = résultats.next();
+            }
+            //
+        } catch (SQLException e) {
+            //traitement de l'exception
+        };
+        return utilisateur;
+    }
+    //
+    
     public List<Utilisateur> getAllUtilisateur(){
         List<Utilisateur> liste = new LinkedList<>();
         String requete = "SELECT * FROM agent_epst";
@@ -99,7 +137,8 @@ public class ModelUtilisateur {
                         résultats.getInt(8),
                         résultats.getString(9),
                         résultats.getString(10),
-                        résultats.getString(11)
+                        résultats.getString(11),
+                        résultats.getString(12)
                     )
                 );
 
@@ -125,8 +164,8 @@ public class ModelUtilisateur {
 
         //
         try{
-            String sql = "INSERT INTO agent_epst (id,nom,postnom,prenom,numero,email, adresse,role,matricule,id_statut, date_de_naissance) "+
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO agent_epst (id,nom,postnom,prenom,numero,email, adresse,role,matricule,id_statut, date_de_naissance, mdp) "+
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
  
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setLong(1, getId());
@@ -198,7 +237,7 @@ public class ModelUtilisateur {
         utilisateur.getId_statut()+":__:id_statut\n"
                 );
         try{
-            String sql = "UPDATE agent_epst SET nom = ?, postnom = ?, prenom = ?, numero = ?, email = ?, adresse = ?, role = ?, matricule = ?, id_statut = ?, date_de_naissance = ?  WHERE id = ?";
+            String sql = "UPDATE agent_epst SET nom = ?, postnom = ?, prenom = ?, numero = ?, email = ?, adresse = ?, role = ?, matricule = ?, id_statut = ?, date_de_naissance = ? mdp = ?  WHERE id = ?";
             //,,,,, ,,,, 
             PreparedStatement statement = con.prepareStatement(sql);
 
@@ -214,8 +253,9 @@ public class ModelUtilisateur {
             statement.setString(8, utilisateur.getMatricule());
             statement.setString(9, utilisateur.getId_statut());
             statement.setString(10, utilisateur.getDate_de_naissance());
+            statement.setString(11, utilisateur.getMdp());
             //
-            statement.setInt(11, utilisateur.getId());
+            statement.setInt(12, utilisateur.getId());
 
             t = statement.executeUpdate();
 
