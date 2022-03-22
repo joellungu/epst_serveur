@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-
+import com.epst.heroku.Main;
 import com.epst.beans.Utilisateur;
 
 public class ModelUtilisateur {
@@ -21,7 +21,7 @@ public class ModelUtilisateur {
 
     public ModelUtilisateur(){
         try{
-            con = seConnecter.con;
+            con = Main.con.con;
         }catch(Exception ex){
             System.out.println("Erreur du à: "+ex.getMessage());
         }

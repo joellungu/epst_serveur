@@ -11,10 +11,11 @@ import java.util.Random;
 
 import com.epst.beans.Piecejointe;
 import com.epst.beans.Plainte;
+import com.epst.heroku.Main;
 
 public class ModelPlainte {
     
-    SeConnecter seConnecter = new SeConnecter();
+    //SeConnecter seConnecter = new SeConnecter();
     Connection con;
     //
     ResultSet résultats = null;
@@ -23,7 +24,7 @@ public class ModelPlainte {
 
     public ModelPlainte(){
         try{
-            con = seConnecter.con;
+            con = Main.con.con;
         }catch(Exception ex){
             System.out.println("Erreur du à: "+ex.getMessage());
         }

@@ -1,5 +1,7 @@
 package com.epst.heroku;
 
+import com.epst.models.SeConnecter;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 
@@ -8,6 +10,8 @@ import org.eclipse.jetty.webapp.WebAppContext;
  * command that is used for launching should fire this main method.
  */
 public class Main {
+
+    public static SeConnecter con = new SeConnecter();
 
     public static void main(String[] args) throws Exception{
         // The port that we should run on can be set into an environment variable

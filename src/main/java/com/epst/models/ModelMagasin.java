@@ -10,10 +10,11 @@ import java.util.List;
 import java.util.Random;
 
 import com.epst.beans.Magasin;
+import com.epst.heroku.Main;
 
 public class ModelMagasin {
     
-    SeConnecter seConnecter = new SeConnecter();
+    //SeConnecter seConnecter = new SeConnecter();
     Connection con;
     //
     ResultSet résultats = null;
@@ -22,7 +23,7 @@ public class ModelMagasin {
 
     public ModelMagasin(){
         try{
-            con = seConnecter.con;
+            con = Main.con.con;
         }catch(Exception ex){
             System.out.println("Erreur du à: "+ex.getMessage());
         }
@@ -62,7 +63,7 @@ public class ModelMagasin {
     public List<Magasin> getAllMagasin(String type){
         List<Magasin> liste = new LinkedList<>();
         System.out.println("le type vaut: "+type);
-        String requete = "SELECT id, libelle, description, date_mise_en_ligne, types FROM magasin where types = '"+type+"'";
+        String requete = "SELECT id, libelle, description, types, date_mise_en_ligne FROM magasin where types = '"+type+"'";
 
         try {
             Statement stmt = con.createStatement();
