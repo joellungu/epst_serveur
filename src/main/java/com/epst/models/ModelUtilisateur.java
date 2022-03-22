@@ -179,6 +179,7 @@ public class ModelUtilisateur {
             statement.setString(9, utilisateur.getMatricule());
             statement.setString(10, utilisateur.getId_statut());
             statement.setString(11, utilisateur.getDate_de_naissance());
+            statement.setString(12, utilisateur.getMdp());
             
             
             int rowsInserted = statement.executeUpdate();
