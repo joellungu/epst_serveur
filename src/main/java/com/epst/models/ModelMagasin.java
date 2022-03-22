@@ -32,7 +32,7 @@ public class ModelMagasin {
 
     public Magasin getMagasin(int id){
         Magasin Magasin = new Magasin();
-        String requete = "SELECT id, libelle, description, types, piecejointe, date_mise_en_ligne FROM magasin where id = "+id;
+        String requete = "SELECT id, libelle, description, piecejointe, types, date_mise_en_ligne FROM magasin where id = "+id;
         //
         try {
             Statement stmt = con.createStatement();
