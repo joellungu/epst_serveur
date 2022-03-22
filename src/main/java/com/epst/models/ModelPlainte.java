@@ -143,7 +143,7 @@ public class ModelPlainte {
     public List<Piecejointe> getAllPiecejointe(int piecejointe_id){
         List<Piecejointe> liste = new LinkedList<>();
         System.out.println("le type vaut: "+piecejointe_id);
-        String requete = "SELECT * FROM piecejointe where piecejointe_id = "+piecejointe_id;
+        String requete = "SELECT * FROM piecejointe where piecejointe_id = '"+piecejointe_id+"'";
 
         try {
             Statement stmt = con.createStatement();
@@ -157,7 +157,7 @@ public class ModelPlainte {
                         résultats.getInt(1),
                         résultats.getString(2),
                         résultats.getBytes(3),
-                        résultats.getInt(4)
+                        résultats.getString(4)
                     )
                 );
 

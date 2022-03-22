@@ -20,7 +20,7 @@ public class Piecejointe {
         int id,
         String piecejointe_id,
         byte[] donne,
-        int type
+        String type
     ){
         this.id = id;
         this.piecejointe_id = piecejointe_id;
@@ -31,6 +31,6 @@ public class Piecejointe {
     public int id;
     public String piecejointe_id;
     public byte[] donne;
-    public int type;
+    public String type;
     
 }
