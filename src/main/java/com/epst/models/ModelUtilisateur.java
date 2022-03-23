@@ -65,7 +65,8 @@ public class ModelUtilisateur {
     //
     public Utilisateur getUtilisateur(String matricule, String mdp){
         Utilisateur utilisateur = new Utilisateur();
-        String requete = "SELECT * FROM agent_epst where matricule = "+matricule+" and mdp";
+        System.out.println("matricule = '"+matricule+"' and mdp = '"+mdp+"'");
+        String requete = "SELECT * FROM agent_epst where matricule = '"+matricule+"' and mdp = '"+mdp+"'";
         //
         try {
             Statement stmt = con.createStatement();

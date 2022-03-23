@@ -33,6 +33,17 @@ public class AgentControlleur {
         return Response.status(Response.Status.OK).entity(json).build();
     }
 
+    @Path("/login/{matricule}/{mdp}")
+    @GET()
+    @Produces(MediaType.APPLICATION_JSON)
+    public Utilisateur getAgent(@PathParam("matricule") String matricule, @PathParam("mdp") String mdp) {
+        Utilisateur u = modelUtilisateur.getUtilisateur(matricule, mdp);
+        //Todo todo = new Todo();
+        //todo.setSummary(id);
+        //todo.setDescription("Application JSON Todo Description");
+        return u;
+    }
+
     @Path("/{id}")
     @GET()
     @Produces(MediaType.APPLICATION_JSON)
@@ -43,7 +54,7 @@ public class AgentControlleur {
         //todo.setDescription("Application JSON Todo Description");
         return u;
     }
-
+    
     @Path("/all")
     @GET()
     @Produces(MediaType.APPLICATION_JSON)
