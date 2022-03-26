@@ -62,7 +62,7 @@ public class PlainteControlleur {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response savetPlainte(Plainte Plainte) {
-        int t = modelPlainte.savePlainte(Plainte);
+        Long t = modelPlainte.savePlainte(Plainte);
         System.out.println("votre element: "+
         Plainte.getTelephone()+":\n__:"+
             Plainte.getDate()+":\n__:"+

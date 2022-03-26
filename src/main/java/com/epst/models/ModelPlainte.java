@@ -178,10 +178,10 @@ public class ModelPlainte {
         return liste;
     }
 
-    public int savePlainte(Plainte plainte){
+    public Long savePlainte(Plainte plainte){
         int t = 0;
 
-        int piecejointe_id = 0;
+        Long piecejointe_id = 0L;
 
         //
         try{
@@ -191,7 +191,7 @@ public class ModelPlainte {
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
             PreparedStatement statement = con.prepareStatement(sql);
-            statement.setInt(1, getId());
+            statement.setLong(1, getId());
             statement.setString(2, plainte.getEnvoyeur()); 
             statement.setString(3, plainte.getTelephone());
             statement.setString(4, plainte.getEmail());
@@ -216,7 +216,7 @@ public class ModelPlainte {
             System.out.println("erreur du à: "+ex.getCause());
             System.out.println("erreur du à: "+ex.getStackTrace());
             t = 0;
-            piecejointe_id = 0;
+            piecejointe_id = 0l;
         }
 
         return piecejointe_id;
@@ -236,7 +236,7 @@ public class ModelPlainte {
     
             PreparedStatement statement = con.prepareStatement(sql);
             //statement.setInt(1, piecejointe.getId());
-            statement.setInt(1, getId()); 
+            statement.setLong(1, getId()); 
             statement.setString(2, piecejointe_id);
             statement.setBytes(3, piecejointe);
             statement.setString(4, type);
@@ -298,12 +298,14 @@ public class ModelPlainte {
         return t;
     }
 
-    private int getId(){
-        int t = 0;
+    private Long getId(){
+        Long t = 0L;
         //
         Random r = new Random();
         //
-        t = Integer.parseInt("1"+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+"");
+        t = Long.parseLong("1"+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""
+        +r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""
+        );
         return t;
     }
 

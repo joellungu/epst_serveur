@@ -119,7 +119,7 @@ public class ModelMagasin {
             "VALUES (?, ?, ?, ?, ?, ?)";
     
             PreparedStatement statement = con.prepareStatement(sql);
-            statement.setInt(1, getId());
+            statement.setLong(1, getId());
             statement.setString(2, Magasin.getLibelle());
             statement.setString(3, Magasin.getDescription());
             statement.setBytes(4, Magasin.getPiecejointe());
@@ -200,12 +200,14 @@ public class ModelMagasin {
         return t;
     }
 
-    private int getId(){
-        int t = 0;
+    private Long getId(){
+        Long t = 0L;
         //
         Random r = new Random();
         //
-        t = Integer.parseInt("1"+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+r.nextInt(11)+"");
+        t = Long.parseLong("1"+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""
+        +r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""
+        );
         return t;
     }
 

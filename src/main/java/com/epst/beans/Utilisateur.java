@@ -31,7 +31,7 @@ public class Utilisateur {
             statement.setString(11, utilisateur.getDate_de_naissance());
                 */
     public Utilisateur(
-             int id,
+             Long id,
              String nom,
              String postnom,
              String prenom,
@@ -59,7 +59,7 @@ public class Utilisateur {
         this.mdp = mdp;
     }
 
-    public int id;
+    public Long id;
 
     public String nom;
 

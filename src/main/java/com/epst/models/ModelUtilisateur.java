@@ -39,7 +39,7 @@ public class ModelUtilisateur {
 
             while (encore) {
                 utilisateur = new Utilisateur(
-                    résultats.getInt("id"),
+                    résultats.getLong("id"),
                     résultats.getString(2),
                     résultats.getString(3),
                     résultats.getString(4),
@@ -76,7 +76,7 @@ public class ModelUtilisateur {
 
             while (encore) {
                 utilisateur = new Utilisateur(
-                    résultats.getInt("id"),
+                    résultats.getLong("id"),
                     résultats.getString(2),
                     résultats.getString(3),
                     résultats.getString(4),
@@ -113,8 +113,8 @@ public class ModelUtilisateur {
 
             while (encore) {
                 
-                System.out.print("****id: "+résultats.getInt(1)+"_ ad:"+":\n__:\n"+
-                résultats.getInt(1)+":__:id\n"+
+                System.out.print("****id: "+résultats.getLong(1)+"_ ad:"+":\n__:\n"+
+                résultats.getLong(1)+":__:id\n"+
                 résultats.getString(2)+":__:adresse\n"+
                 résultats.getString(3)+":__:email\n"+
                 résultats.getString(4)+":__:nom\n"+
@@ -128,7 +128,7 @@ public class ModelUtilisateur {
                 
                 liste.add(
                     new Utilisateur(
-                        résultats.getInt(1),
+                        résultats.getLong(1),
                         résultats.getString(2),
                         résultats.getString(3),
                         résultats.getString(4),
@@ -257,7 +257,7 @@ public class ModelUtilisateur {
             statement.setString(10, utilisateur.getDate_de_naissance());
             statement.setString(11, utilisateur.getMdp());
             //
-            statement.setInt(12, utilisateur.getId());
+            statement.setLong(12, utilisateur.getId());
 
             t = statement.executeUpdate();
 
@@ -268,12 +268,14 @@ public class ModelUtilisateur {
         return t;
     }
 
-    private int getId(){
-        int t = 0;
+    private Long getId(){
+        Long t = 0L;
         //
         Random r = new Random();
         //
-        t = Integer.parseInt("1"+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+r.nextInt(11)+"");
+        t = Long.parseLong("1"+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""
+        +r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""
+        );
         return t;
     }
 
