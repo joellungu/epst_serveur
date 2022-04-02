@@ -1,5 +1,6 @@
 package org.epst.controlleurs;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.epst.beans.Magasin;
@@ -27,7 +28,9 @@ public class MagasinControlleur {
     @Path("/{id}")
     @GET()
     @Produces(MediaType.APPLICATION_JSON)
-    public Magasin getMagasint(@PathParam("id") int id) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Magasin getMagasint(@PathParam("id") Long id) {
+        System.out.println("le id: "+id);
         Magasin u = modelMagasin.getMagasin(id);
         //Todo todo = new Todo();
         //todo.setSummary(id);
@@ -58,11 +61,12 @@ public class MagasinControlleur {
     }
 
     //@Path("")
+    //Content-Type: text/plain;charset=UTF-8
     @POST()
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public Response savetMagasint(Magasin Magasin) {
-        int t = modelMagasin.saveMagasin(Magasin);
+        String t = modelMagasin.saveMagasin(Magasin);
         System.out.println("votre element: "+
         Magasin.getDate()+":\n__:"+
             Magasin.getDescription()+":\n__:"+
@@ -95,7 +99,7 @@ public class MagasinControlleur {
     @Path("/{id}")
     @DELETE()
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteMagasint(@PathParam("id") int id) {
+    public Response deleteMagasint(@PathParam("id") Long id) {
         int t = modelMagasin.supprimerMagasin(id);
         ObjectNode json = mapper.createObjectNode();
         //
@@ -104,6 +108,16 @@ public class MagasinControlleur {
         return Response.status(Response.Status.CREATED).entity(json).build();
     }
 
-    
+    @Path("recherche/{mot}")
+    @GET()
+    @Consumes(MediaType.TEXT_PLAIN)
+    public List<Magasin> rechercheMag(@PathParam("type")String mot){
+
+        List<Magasin> liste = new LinkedList<Magasin>();
+        
+        return liste;
+
+    }
+
 }
 

@@ -15,12 +15,12 @@ import lombok.experimental.Accessors;
 @ToString
 public class Magasin {
 
-    public Magasin(int id, String libelle, String descirption, byte[] piecejointe, String types, String date){
+    public Magasin(Long id, String libelle, String descirption, byte[] piecejointe, String types, String date, String extention){
         this.date = date; this.description = descirption; this.id = id; this.libelle = libelle; this.piecejointe = piecejointe;
-        this.types = types;
+        this.types = types; this.extention = extention;
     }
 
-    public int id;
+    public Long id;
 
     public String libelle;
 
@@ -31,6 +31,8 @@ public class Magasin {
     public byte[] piecejointe;
 
     public String types;
+
+    public String extention;
 
 
 }
