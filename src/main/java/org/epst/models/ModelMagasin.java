@@ -63,7 +63,6 @@ public class ModelMagasin {
         return magasin;
     }
     //
-
     public Boolean getMagasinLibelle(String libelle, String types){
         //
         String requete = "SELECT id FROM magasin where libelle = "+libelle +" and types = "+types;
@@ -290,14 +289,9 @@ public class ModelMagasin {
     }
 
     private Long getId(){
-        Long t = 0L;
-        //
-        Random r = new Random();
-        //
-        t = Long.parseLong("1"+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""
-        +r.nextInt(11)+""+r.nextInt(11)+""+r.nextInt(11)+""
-        );
-        return t;
+        Random random = new Random();
+        long random63BitLong = random.nextLong();
+        return random63BitLong;
     }
 
 }

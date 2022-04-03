@@ -2,12 +2,16 @@ package org.epst.controlleurs;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.epst.beans.Magasin;
 import org.epst.models.ModelMagasin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -40,11 +44,13 @@ public class MagasinControlleur {
 
     @Path("/all/{type}")
     @GET()
+    //@Transactional
     @Produces(MediaType.APPLICATION_JSON)
     public List<Magasin> getAllMagasints(@PathParam("type") String type) {
         System.out.println("Element type: "+type);
         //
         List<Magasin> listeU = modelMagasin.getAllMagasin(type);
+        
         //listeU.forEach((u)->{
         //  System.out.println("Element nom: "+u.nom);
         //});
@@ -63,6 +69,7 @@ public class MagasinControlleur {
     //@Path("")
     //Content-Type: text/plain;charset=UTF-8
     @POST()
+    @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response savetMagasint(Magasin Magasin) {
@@ -74,11 +81,19 @@ public class MagasinControlleur {
             Magasin.getLibelle()+":\n__:"
         );
         //
-
+        
         ObjectNode json = mapper.createObjectNode();
+        
+        json.put("status", "ok");
+        //Random random = new Random();
+        //long random63BitLong = random.nextLong();
         //
-        //json.put("status", "ok");
-        json.put("save", t);
+        //Magasin.setId(random63BitLong);
+        //
+        //Magasin.persist();
+        //
+        //ObjectNode json = mapper.createObjectNode();
+        ///json.put("save", "ok");
         
         return Response.status(Response.Status.CREATED).entity(json).build();
     }
