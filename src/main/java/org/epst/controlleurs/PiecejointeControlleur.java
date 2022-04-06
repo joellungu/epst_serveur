@@ -48,10 +48,11 @@ public class PiecejointeControlleur {
     @POST()
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response savetPlainte(@PathParam("piecejointe_id") int piecejointe_id, @PathParam("type") String type, byte[] piecejointe) {
-        int t = modelPlainte.savePiecejointe(piecejointe_id+"", type, piecejointe);
+    public Response savetPlainte(@PathParam("piecejointe_id") Long piecejointe_id, @PathParam("type") String type, byte[] piecejointe) {
+        int t = modelPlainte.savePiecejointe(piecejointe_id, type, piecejointe);
         
-        System.out.println("votre element_______: "+
+        System.out.println("piecejointe_id: "+piecejointe_id+"// type "+type+"");
+        System.out.println("votre element piece jointe_______: "+
         piecejointe_id+":\n__:"+
         type+":\n__:"
         );

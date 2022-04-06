@@ -58,6 +58,9 @@ public class ModelMagasin {
         } catch (SQLException ex) {
             //traitement de l'exception
             System.out.println("erreur du à: "+ex.getMessage());
+            System.out.println("erreur du à: "+ex.getErrorCode());
+            System.out.println("erreur du à: "+ex.getCause());
+            System.out.println("erreur du à: "+ex.getLocalizedMessage());
 
         };
         return magasin;

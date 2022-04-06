@@ -53,7 +53,7 @@ public class ModelPlainte {
 
             while (encore) {
                 Plainte = new Plainte(
-                    résultats.getInt(1),
+                    résultats.getLong(1),
                     résultats.getString(2),
                     résultats.getString(3),
                     résultats.getString(4),
@@ -77,7 +77,7 @@ public class ModelPlainte {
         return Plainte;
     }
     //
-    public List<Plainte> getAllPlainte(String statut){
+    public List<Plainte> getAllPlainte(int statut){
         List<Plainte> liste = new LinkedList<>();
         System.out.println("le type vaut: "+statut);
         String requete = "SELECT * FROM depot_plainte WHERE id_statut = '"+statut+"'";
@@ -106,7 +106,7 @@ public class ModelPlainte {
                 */
                 liste.add(
                     new Plainte(
-                        résultats.getInt(1),
+                        résultats.getLong(1),
                         résultats.getString(2),
                         résultats.getString(3),
                         résultats.getString(4),
@@ -178,7 +178,7 @@ public class ModelPlainte {
     }
 
     public Long savePlainte(Plainte plainte){
-        int t = 0;
+        //int t = 0;
 
         Long piecejointe_id = 0L;
 
@@ -207,21 +207,21 @@ public class ModelPlainte {
             if (rowsInserted > 0) {
                 System.out.println("A new user was inserted successfully!");
             }
-            t = rowsInserted;
+            //t = rowsInserted;
         }catch(Exception ex){
             System.out.println("erreur du à: "+ex);
             System.out.println("erreur du à: "+ex.getMessage());
             System.out.println("erreur du à: "+ex.getLocalizedMessage());
             System.out.println("erreur du à: "+ex.getCause());
             System.out.println("erreur du à: "+ex.getStackTrace());
-            t = 0;
+            //t = 0;
             piecejointe_id = 0l;
         }
 
         return piecejointe_id;
     }
 
-    public int savePiecejointe(String piecejointe_id, String type, byte[] piecejointe){
+    public int savePiecejointe(Long piecejointe_id, String type, byte[] piecejointe){
         int t = 0;
 
         //int piecejointe_id = 0;
@@ -236,7 +236,7 @@ public class ModelPlainte {
             PreparedStatement statement = con.prepareStatement(sql);
             //statement.setInt(1, piecejointe.getId());
             statement.setLong(1, getId()); 
-            statement.setString(2, piecejointe_id);
+            statement.setLong(2, piecejointe_id);
             statement.setBytes(3, piecejointe);
             statement.setString(4, type);
             
@@ -286,7 +286,7 @@ public class ModelPlainte {
             statement.setString(10, plainte.getDate());
             statement.setString(11, plainte.getProvince());
             //
-            statement.setInt(12, plainte.getId());
+            statement.setLong(12, plainte.getId());
             //
             t = statement.executeUpdate();
 

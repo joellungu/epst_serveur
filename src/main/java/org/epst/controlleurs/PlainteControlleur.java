@@ -39,7 +39,7 @@ public class PlainteControlleur {
     @Path("/all/{statut}")
     @GET()
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Plainte> getAllPlaintes(@PathParam("statut") String statut) {
+    public List<Plainte> getAllPlaintes(@PathParam("statut") int statut) {
         //
         List<Plainte> listeU = modelPlainte.getAllPlainte(statut);
         //listeU.forEach((u)->{

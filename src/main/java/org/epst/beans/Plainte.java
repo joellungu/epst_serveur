@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 public class Plainte {
 
     public Plainte(
-        int id,
+        Long id,
         String envoyeur,
         String telephone,
         String email,
@@ -42,7 +42,7 @@ public class Plainte {
         this.province = province;
     }
     
-    public int id;
+    public Long id;
     public String envoyeur;
     public String telephone;
     public String email;
