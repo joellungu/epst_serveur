@@ -1,13 +1,18 @@
 package org.epst.controlleurs;
 
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import org.epst.beans.FileUploadForm;
 import org.epst.beans.Magasin;
 import org.epst.models.ModelMagasin;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -21,9 +26,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 @Path("/magasin")
+@RegisterRestClient
 public class MagasinControlleur {
 
     private static final ObjectMapper mapper = new ObjectMapper();
@@ -73,7 +81,7 @@ public class MagasinControlleur {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response savetMagasint(Magasin Magasin) {
-        String t = modelMagasin.saveMagasin(Magasin);
+        Long t = modelMagasin.saveMagasin(Magasin);
         System.out.println("votre element: "+
         Magasin.getDate()+":\n__:"+
             Magasin.getDescription()+":\n__:"+
@@ -84,7 +92,7 @@ public class MagasinControlleur {
         
         ObjectNode json = mapper.createObjectNode();
         
-        json.put("status", "ok");
+        json.put("status", t);
         //Random random = new Random();
         //long random63BitLong = random.nextLong();
         //
@@ -134,5 +142,30 @@ public class MagasinControlleur {
 
     }
 
+    
+    @Path("update/{id}")
+    @POST()
+    @Consumes(MediaType.APPLICATION_OCTET_STREAM) //"multipart/form-data")
+    Response sendMultipartData(byte[] data){//byte[] data, @PathParam("id") Long id
+        //
+        String fileName = "";//
+		
+		try {
+            System.out.println("Id: ---: ");
+			//writeFile(form.getData(), fileName);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+            System.out.println(e.getMessage());
+		}
+
+		System.out.println("Done");
+
+		return Response.status(200)
+		    .entity("uploadFile is called, Uploaded file name : " + fileName).build();
+
+        //return null;
+    }
+    //
 }
 

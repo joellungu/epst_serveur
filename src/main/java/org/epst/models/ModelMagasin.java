@@ -1,5 +1,8 @@
 package org.epst.models;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -194,17 +197,18 @@ public class ModelMagasin {
         return liste;
     }
 
-    public String saveMagasin(Magasin Magasin){
-        String t = "";
+    public Long saveMagasin(Magasin Magasin){
+        Long t ;
 
         if(!getMagasinLibelle(Magasin.getLibelle(), Magasin.getTypes())){
             //
+            Long id_ = getId();
             try{
                 String sql = "INSERT INTO magasin (id, libelle, description, piecejointe, date_mise_en_ligne, types, extention) "+
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
         
                 PreparedStatement statement = con.prepareStatement(sql);
-                statement.setLong(1, getId());
+                statement.setLong(1, id_);
                 statement.setString(2, Magasin.getLibelle());
                 statement.setString(3, Magasin.getDescription());
                 statement.setBytes(4, Magasin.getPiecejointe());
@@ -217,18 +221,18 @@ public class ModelMagasin {
                 if (rowsInserted > 0) {
                     System.out.println("A new user was inserted successfully!");
                 }
-                t = "Enregistrement éffectué";
+                t = id_;
             }catch(Exception ex){
                 System.out.println("erreur du à: "+ex);
                 System.out.println("erreur du à: "+ex.getMessage());
                 System.out.println("erreur du à: "+ex.getLocalizedMessage());
                 System.out.println("erreur du à: "+ex.getCause());
                 System.out.println("erreur du à: "+ex.getStackTrace());
-                t = "Problème d'enregistrement erreur: "+ex.getMessage();//
+                t = 0l;//
             }
             //
         }else{
-            t = "Ce libelle existe déjà";
+            t = 0l;
         }
         //
         return t;
@@ -281,6 +285,31 @@ public class ModelMagasin {
             statement.setString(6, Magasin.getExtention());
             //
             statement.setLong(7, Magasin.getId());
+
+            t = statement.executeUpdate();
+
+        }catch(Exception ex){
+            System.out.println("erreur du à: "+ex.getMessage());
+            t = 0;
+        }
+        return t;
+    }
+
+    public int miseaJourMagasin(Long id, byte[] data){
+        int t = 0;
+        System.out.print("****id: "+id+":\n__:\n");
+        try{
+            String sql = "UPDATE magasin SET piecejointe = ? WHERE id = ?";
+            //
+            PreparedStatement statement = con.prepareStatement(sql);
+            
+            //
+            statement.setBytes(1, data);
+            //
+            FileInputStream lis;
+            //
+            statement.setLong(2, id);
+            //statement.setBlob(2, new ByteArrayInputStream(data));
 
             t = statement.executeUpdate();
 
