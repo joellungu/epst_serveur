@@ -26,7 +26,7 @@ public class PiecejointeControlleur {
     @Path("/all/{piecejointe_id}")
     @GET()
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Piecejointe> getAllPiecejointe(@PathParam("piecejointe_id") int piecejointe_id) {
+    public List<Piecejointe> getAllPiecejointe(@PathParam("piecejointe_id") Long piecejointe_id) {
         //
         List<Piecejointe> listeU = modelPlainte.getAllPiecejointe(piecejointe_id);
         //listeU.forEach((u)->{

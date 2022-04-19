@@ -30,7 +30,7 @@ public class ModelPlainte {
     }
     //
 
-    public Plainte getPlainte(int id){
+    public Plainte getPlainte(Long id){
         Plainte Plainte = new Plainte();
         String requete = "SELECT * FROM depot_plainte where id = "+id;
         //
@@ -138,8 +138,70 @@ public class ModelPlainte {
         return liste;
     }
     //
+    public List<Plainte> getAllPlainteR(String reference){
+        List<Plainte> liste = new LinkedList<>();
+        System.out.println("le type vaut: "+reference);
+        String requete = "SELECT * FROM depot_plainte WHERE reference = '"+reference+"'";
+        //statut == "0" ? "SELECT * FROM plainte" : "SELECT * FROM plainte where statut = "+statut;
+
+        try {
+            Statement stmt = con.createStatement();
+            résultats = stmt.executeQuery(requete);
+            //
+            boolean encore = résultats.next();
+
+            while (encore) {
+                /*
+                System.out.print("****id: "+résultats.getInt(1)+"_ ad:"+":\n__:\n"+
+                résultats.getInt(1)+":__:id\n"+
+                résultats.getString(2)+":__:adresse\n"+
+                résultats.getString(3)+":__:email\n"+
+                résultats.getString(4)+":__:nom\n"+
+                résultats.getString(5)+":__:numero\n"+
+                résultats.getString(6)+":__:postnom\n"+
+                résultats.getString(7)+":__:prenom\n"+
+                résultats.getString(8)+":__:role\n"+
+                résultats.getString(10)+":__:matricule\n"+
+                résultats.getString(11)+":__:id_statut\n"
+                );
+                */
+                liste.add(
+                    new Plainte(
+                        résultats.getLong(1),
+                        résultats.getString(2),
+                        résultats.getString(3),
+                        résultats.getString(4),
+                        résultats.getString(5),
+                        résultats.getString(6),
+                        résultats.getString(7),
+                        résultats.getString(8),
+                        résultats.getString(9),
+                        résultats.getString(10),
+                        résultats.getString(11),
+                        résultats.getString(12)
+                    )
+                );
+
+                System.out.println("La langueur: "+liste.size());
+                encore = résultats.next();
+            }
+            //
+        } catch (SQLException e) {
+            //traitement de l'exception
+            System.out.println(e);
+        };
+        //
+        liste.forEach((e)->{
+            System.out.print(e.getId() + " ___ " + e.getDate() + 
+                "______" + e.getEmail() + "____" + e.getTelephone() + "__");
+        });
+
+        return liste;
+    }
     //
-    public List<Piecejointe> getAllPiecejointe(int piecejointe_id){
+    
+    //
+    public List<Piecejointe> getAllPiecejointe(Long piecejointe_id){
         List<Piecejointe> liste = new LinkedList<>();
         System.out.println("le type vaut: "+piecejointe_id);
         String requete = "SELECT * FROM piecejointe where piecejointe_id = '"+piecejointe_id+"'";
@@ -153,8 +215,8 @@ public class ModelPlainte {
             while (encore) {
                 liste.add(
                     new Piecejointe(
-                        résultats.getInt(1),
-                        résultats.getString(2),
+                        résultats.getLong(1),
+                        résultats.getLong(2),
                         résultats.getBytes(3),
                         résultats.getString(4)
                     )
@@ -260,19 +322,48 @@ public class ModelPlainte {
 
     public int miseaJourPlainte(Plainte Plainte){
         int t = 0;
-        System.out.print("****id: "+"_ ad:"+":\n__:\n"+
-        Plainte.getId()+":__:id\n"+
-        Plainte.getDate()+":__:date\n"+
-        Plainte.getEmail()+":__:email\n"+
-        Plainte.getProvince()+":__:Province\n"
-                );
+        System.out.println("1***"+Plainte.getEnvoyeur());
+        System.out.println("2***"+Plainte.getTelephone());
+        System.out.println("3***"+Plainte.getEmail());
+        System.out.println("4***"+Plainte.getDestinateur());
+        System.out.println("5***"+Plainte.getId_tiquet());
+        System.out.println("6***"+Plainte.getMessage());
+        System.out.println("7***"+Plainte.getId_statut());
+        System.out.println("8***"+Plainte.getPiecejointe_id());
+        System.out.println("9***"+Plainte.getDate());
+        System.out.println("10***"+Plainte.getProvince());
+        System.out.println("11***"+Plainte.getId());
+        
         try{
-            String sql = "UPDATE plainte SET envoyeur = ? telephone = ? email = ? destinateur = ? id_tiquet = ? message = ? id_statut = ? piecejointe_id = ? reference = ? date = ? province WHERE id = ?";
+            String sql = "UPDATE depot_plainte SET "+
+            "envoyeur = '"+Plainte.getEnvoyeur()+"', "+
+            "telephone = '"+Plainte.getTelephone()+"', "+
+            "email = '"+Plainte.getEmail()+"', "+
+            "destinateur = '"+Plainte.getDestinateur()+"', "+
+            "id_tiquet = '"+Plainte.getId_tiquet()+"', "+
+            "message = '"+Plainte.getMessage()+"', "+
+            "id_statut = '"+Plainte.getId_statut()+"', "+
+            "piecejointe_id = '"+Plainte.getPiecejointe_id()+"', "+
+            "reference = '"+Plainte.getReference()+"', "+
+            "date = '"+Plainte.getDate()+"', "+
+            "province = '"+Plainte.getProvince()+"' WHERE id = '"+Plainte.getId()+"'";
             //"UPDATE plainte SET date = ?, telephone = ?, email = ?, province = ?, id_tiquet = ?, message = ?, statut = ?, piecejointe_id = ?, reference = ? WHERE id = ?";
             //
-            PreparedStatement statement = con.prepareStatement(sql);
-
-            //
+            Statement stmt = con.createStatement();
+            //ResultSet rs = stmt.executeQuery(QUERY);
+            //PreparedStatement statement = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery(sql);
+            /*
+            while(rs.next()){
+                //Display values
+                System.out.print("ID: " + rs.getInt("id"));
+                System.out.print(", email: " + rs.getInt("email"));
+                System.out.print(", province: " + rs.getString("province"));
+                System.out.println(", id_tiquet: " + rs.getString("id_tiquet"));
+             }
+             rs.close();
+             */
+            /*
             //statement.setInt(1, plainte.getId());
             statement.setString(1, plainte.getEnvoyeur()); 
             statement.setString(2, plainte.getTelephone());
@@ -289,10 +380,18 @@ public class ModelPlainte {
             statement.setLong(12, plainte.getId());
             //
             t = statement.executeUpdate();
+            */
 
         }catch(Exception ex){
+            System.out.println("erreur du à: "+ex);
+            System.out.println("erreur du à: "+ex.getLocalizedMessage());
+            System.out.println("erreur du à: "+ex.getCause());
+            System.out.println("erreur du à: "+ex.getStackTrace());
             System.out.println("erreur du à: "+ex.getMessage());
             t = 0;
+            for(Object c : ex.getStackTrace()){
+                System.out.println(c);
+            }
         }
         return t;
     }

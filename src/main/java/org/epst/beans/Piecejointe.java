@@ -15,8 +15,8 @@ import lombok.experimental.Accessors;
 public class Piecejointe {
 
     public Piecejointe(
-        int id,
-        String piecejointe_id,
+        Long id,
+        Long piecejointe_id,
         byte[] donne,
         String type
     ){
@@ -26,8 +26,8 @@ public class Piecejointe {
         this.type = type;
     }
 
-    public int id;
-    public String piecejointe_id;
+    public Long id;
+    public Long piecejointe_id;
     public byte[] donne;
     public String type;
     

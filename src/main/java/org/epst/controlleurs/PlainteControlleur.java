@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
+//import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -28,7 +28,7 @@ public class PlainteControlleur {
     @Path("/{id}")
     @GET()
     @Produces(MediaType.APPLICATION_JSON)
-    public Plainte getPlainte(@PathParam("id") int id) {
+    public Plainte getPlainte(@PathParam("id") Long id) {
         Plainte u = modelPlainte.getPlainte(id);
         //Todo todo = new Todo();
         //todo.setSummary(id);
@@ -42,6 +42,27 @@ public class PlainteControlleur {
     public List<Plainte> getAllPlaintes(@PathParam("statut") int statut) {
         //
         List<Plainte> listeU = modelPlainte.getAllPlainte(statut);
+        //listeU.forEach((u)->{
+        //  System.out.println("Element nom: "+u.nom);
+        //});
+        //
+        //Todo todo = new Todo();
+        //todo.setSummary("Application JSON Todo Summary");
+        //todo.setDescription("Application JSON Todo Description");
+        //
+        //Todo todo2 = new Todo();
+        //todo2.setSummary("Application JSON ");
+        //todo2.setDescription("Application JSON ");
+
+        return listeU;//Arrays.asList(todo,todo2);
+    }
+
+    @Path("/reference/{reference}")
+    @GET()
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Plainte> getAllPlaintesR(@PathParam("reference") String reference) {
+        //
+        List<Plainte> listeU = modelPlainte.getAllPlainteR(reference);
         //listeU.forEach((u)->{
         //  System.out.println("Element nom: "+u.nom);
         //});
