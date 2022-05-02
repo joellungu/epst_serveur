@@ -22,7 +22,7 @@ public class NoteControlleur {
 
 
     //@Transactional
-    @Path("/ajoule")
+    @Path("/ajouter")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
