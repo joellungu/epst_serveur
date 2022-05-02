@@ -14,22 +14,24 @@ import org.epst.beans.NoteTraitementBean;
 import org.epst.models.ModelNoteTraitement;
 
 @Path("/note")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class NoteControlleur {
 
     private static final ObjectMapper mapper = new ObjectMapper();
-    
 
-    @Path("/ajouter")
-    @POST()
-    @Transactional
+
+    //@Transactional
+    @Path("/ajoule")
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response noter(NoteTraitementBean noteTraitementBean){
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response noterMa(NoteTraitementBean noteTraitementBean){
         System.out.println("Le id: "+noteTraitementBean.getId());
         System.out.println("Le nom: "+noteTraitementBean.getNomIdmin());
         System.out.println("Le ref: "+noteTraitementBean.getReference());
         System.out.println("Le note: "+noteTraitementBean.getNote());
-        
+        //
         ModelNoteTraitement modelNoteTraitement = new ModelNoteTraitement();
         Long v = modelNoteTraitement.saveNote(noteTraitementBean);
         ObjectNode json = mapper.createObjectNode();

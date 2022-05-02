@@ -13,10 +13,10 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor // <--- THIS is it
 @ToString
 public class NoteTraitementBean {
-    Long id;
-    String nomIdmin;
-    String reference;
-    String note;
+    public Long id;
+    public String nomIdmin;
+    public String reference;
+    public String note;
 
     public NoteTraitementBean(Long id, String nomIdmin, String reference, String note){
         this.id = id; this.nomIdmin = nomIdmin; this.note = note; this.reference = reference;

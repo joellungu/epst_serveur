@@ -1,9 +1,12 @@
 package org.epst.controlleurs;
 
 
+import java.util.HashMap;
 import java.util.List;
 
+import org.epst.beans.NoteTraitementBean;
 import org.epst.beans.Plainte;
+import org.epst.models.ModelNoteTraitement;
 import org.epst.models.ModelPlainte;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -113,4 +116,27 @@ public class PlainteControlleur {
         return Response.status(Response.Status.CREATED).entity(json).build();
     }
 
+    @Path("/noter")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response noterMa(HashMap<String, String> map){//
+        NoteTraitementBean noteTraitementBean = new NoteTraitementBean();
+        noteTraitementBean.setNote(map.get("note"));
+        noteTraitementBean.setReference(map.get("reference"));
+        noteTraitementBean.setNomIdmin(map.get("nomIdmin"));
+        noteTraitementBean.setId(1L);
+
+        System.out.println("Le note: "+map.get("note"));
+        System.out.println("Le nom: "+map.get("nomIdmin"));
+        System.out.println("Le ref: "+map.get("reference"));
+        /*
+        System.out.println("Le note: "+noteTraitementBean.getNote());
+        */
+        ModelNoteTraitement modelNoteTraitement = new ModelNoteTraitement();
+        Long v = modelNoteTraitement.saveNote(noteTraitementBean);
+        ObjectNode json = mapper.createObjectNode();
+        json.put("status", "v");
+        return Response.status(Response.Status.CREATED).entity("ok").build();
+    }
 }

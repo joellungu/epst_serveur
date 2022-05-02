@@ -352,7 +352,7 @@ public class ModelPlainte {
             Statement stmt = con.createStatement();
             //ResultSet rs = stmt.executeQuery(QUERY);
             //PreparedStatement statement = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery(sql);
+            stmt.executeQuery(sql);
             /*
             while(rs.next()){
                 //Display values
