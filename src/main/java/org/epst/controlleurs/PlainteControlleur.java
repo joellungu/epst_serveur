@@ -44,6 +44,7 @@ public class PlainteControlleur {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Plainte> getAllPlaintes(@PathParam("statut") int statut) {
         //
+        System.out.println("Le statut: "+statut);
         List<Plainte> listeU = modelPlainte.getAllPlainte(statut);
         //listeU.forEach((u)->{
         //  System.out.println("Element nom: "+u.nom);

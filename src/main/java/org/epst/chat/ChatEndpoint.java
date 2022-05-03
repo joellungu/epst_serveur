@@ -112,13 +112,16 @@ public class ChatEndpoint {
 
         }else if(message.getTo().equals("hote")){//La conversation
           sessions.forEach((s)->{
-            if(s.getId().equals(message.getClientId())){
-              listeUsers.forEach((u)->{//
+              System.out.println("Id1: "+s.getId()+" == "+message.getClientId()+" == "+s.getId().equals(message.getClientId()));
+              if(s.getId().equals(message.getClientId())){
+              /*
+                listeUsers.forEach((u)->{//
                 if(u.get("clientId").equals(message.getClientId())){
                   u.put("visible", message.getVisible());
                   //u.put("clientId", session.getId());
                 }
               });
+              */
               try {
                 //message.setClientId(session.getId());
                 s.getAsyncRemote().sendText(obj.writeValueAsString(message));
@@ -126,6 +129,8 @@ public class ChatEndpoint {
                 // 
                 e.printStackTrace();
               }
+            }else{
+                System.out.println("Pas de session pour lui: "+s.getId());
             }
           });
         }else{//La conversation
