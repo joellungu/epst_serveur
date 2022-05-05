@@ -8,7 +8,7 @@ public class SeConnecter {
 
     public Connection con;
     //
-    ResultSet résultats = null;
+    //ResultSet résultats = null;
     //
 
     public SeConnecter(){

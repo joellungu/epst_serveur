@@ -16,13 +16,14 @@ public class Message {
     private Boolean all;
     private String visible;
     private Boolean conversation;
+    private String matricule;
+    private String date;
+    private String heure;
     
     //from,to,content,hostId,clientId,close,all,visible,conversation
-    
 
-    Message(String from, String to , String content, String hostId, String clientId, Boolean close, Boolean all, String visible, Boolean conversation){
-
-    }
+    Message(String from, String to , String content, String hostId, String clientId, Boolean close,
+            Boolean all, String visible, Boolean conversation, String matricule, String date, String heure){}
 
     Message(){}
 

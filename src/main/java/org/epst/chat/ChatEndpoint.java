@@ -17,8 +17,10 @@ import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
+import javax.transaction.Transactional;
 import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -31,6 +33,9 @@ import javax.websocket.server.ServerEndpoint;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.epst.beans.MessageBean;
+import org.epst.beans.MessageBeanRepository;
+import org.epst.models.ModelMessage;
 
 
 @ServerEndpoint(
@@ -39,6 +44,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
   encoders = MessageEncoder.class
 )
 public class ChatEndpoint {
+
+    @Inject
+    MessageBeanRepository messageBeanRepository;
 
     private Session session;
     private static Set<ChatEndpoint> chatEndpoints 
@@ -114,17 +122,20 @@ public class ChatEndpoint {
           sessions.forEach((s)->{
               System.out.println("Id1: "+s.getId()+" == "+message.getClientId()+" == "+s.getId().equals(message.getClientId()));
               if(s.getId().equals(message.getClientId())){
-              /*
-                listeUsers.forEach((u)->{//
-                if(u.get("clientId").equals(message.getClientId())){
-                  u.put("visible", message.getVisible());
-                  //u.put("clientId", session.getId());
-                }
+              listeUsers.forEach((u)->{//
+                  if(u.get("clientId").equals(message.getClientId())){
+                      u.put("visible", message.getVisible());
+                      //u.put("clientId", session.getId());
+                  }
               });
-              */
               try {
-                //message.setClientId(session.getId());
-                s.getAsyncRemote().sendText(obj.writeValueAsString(message));
+                    //
+                    //__________________________
+                    s.getAsyncRemote().sendText(obj.writeValueAsString(message));
+                    //
+                    System.out.println("Cool c'est bon! 1");
+                    //
+                    messageBeanRepository.saveData(message);
               } catch (JsonProcessingException e) {
                 // 
                 e.printStackTrace();
@@ -143,11 +154,33 @@ public class ChatEndpoint {
                 }
               });
               try {
-                //message.setClientId(session.getId());
-                s.getAsyncRemote().sendText(obj.writeValueAsString(message));
+                  /*
+                  MessageBean ms = new MessageBean();
+                  ms.setAll(message.getAll());
+                  ms.setClose(message.getClose());
+                  ms.setClientId(message.getClientId());
+                  ms.setConversation(message.getConversation());
+                  ms.setDate(message.getDate());
+                  ms.setContent(message.getContent());
+                  ms.setMatricule(message.getMatricule());
+                  ms.setFrom(message.getFrom());
+                  ms.setHostId(message.getHostId());
+                  ms.setTo(message.getTo());
+                  ms.setVisible(message.getVisible());
+                  //ms.setTo(message.getAll());
+                  //modelMessage.save(ms);
+                  //__________________________
+                   */
+                  //
+                  //messageBeanRepository.saveData(message);
+                    s.getAsyncRemote().sendText(obj.writeValueAsString(message));
+                    System.out.println("Cool c'est bon!");
+                    //
+                    messageBeanRepository.saveData(message);
               } catch (JsonProcessingException e) {
                 // 
                 e.printStackTrace();
+                //
               }
             }
           });
