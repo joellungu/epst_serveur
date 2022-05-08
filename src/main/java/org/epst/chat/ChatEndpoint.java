@@ -88,7 +88,8 @@ public class ChatEndpoint {
         ObjectMapper obj = new ObjectMapper();
         System.out.println(obj.writeValueAsString(message));
 
-        if(message.getAll()){//La tout le monde sauf les agent du epst
+        if(message.getAll()){
+            //La tout le monde sauf les agent du epst
           //listeUsers
           listeUsers.forEach((e)->{
             e.put("hostId",session.getId());
@@ -108,8 +109,49 @@ public class ChatEndpoint {
           String rep = obj.writeValueAsString(ls);
           session.getAsyncRemote().sendText(rep);
           //
-        }else if(message.getClose()){//Fin de la conversation
-
+        }else if(message.getClose()){
+            //Fin de la conversation
+            sessions.forEach((s)->{
+                if(s.getId().equals(message.getHostId())) {
+                    listeConvAss.forEach((c)-> {
+                        String[] b = c.split(":");
+                        if (b[0].equals(session.getId()) || b[1].equals(session.getId())) {
+                            sessions.forEach((ss) -> {
+                                if (ss.getId().equals(b[0])) {
+                                    try {
+                                        Message m = new Message();
+                                        m.setContent("Fin de la conversation");
+                                        m.setClose(true);
+                                        s.getAsyncRemote().sendText(obj.writeValueAsString(m));
+                                    } catch (Exception ex) {
+                                        System.out.println("Erreur du: " + ex);
+                                    }
+                                }
+                            });
+                            //
+                            sessions.forEach((ss) -> {
+                                if (ss.getId().equals(b[1])) {
+                                    try {
+                                        Message m = new Message();
+                                        m.setContent("Fin de la conversation");
+                                        m.setClose(true);
+                                        s.getAsyncRemote().sendText(obj.writeValueAsString(m));
+                                    } catch (Exception ex) {
+                                        System.out.println("Erreur du: " + ex);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+            //
+            sessions.remove(session);
+            //
+            users.remove(users.get(session.getId()));
+            //
+            listeUsers.forEach((r)->{if(r.get("clientId").equals(session.getId())){listeUsers.remove(r);}});
+            //
         }else if(message.getTo().equals("hote")){//La conversation
           sessions.forEach((s)->{
               System.out.println("Id1: "+s.getId()+" == "+message.getClientId()+" == "+s.getId().equals(message.getClientId()));

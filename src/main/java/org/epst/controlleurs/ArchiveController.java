@@ -13,7 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -38,13 +38,18 @@ public class ArchiveController {
     @Produces(MediaType.APPLICATION_JSON)
     public List<MessageBean> getArchive1(@PathParam("matricule") String matricule, @PathParam("date") String date) {
         List<MessageBean> l = modelMessage.getArchiveConversation(matricule);
-        System.out.println("matricule: "+matricule);
-        System.out.println("taille: "+l.size());
+        List<MessageBean> listWithoutDuplicates = new ArrayList<>();
+        //System.out.println("matricule: "+matricule);
+        Set<String> f = new HashSet<>();
+        System.out.println("taille: "+listWithoutDuplicates.size());
         l.forEach((e)->{
-            System.out.println("matricule: "+e.getMatriculet());
+            if(f.add(e.getDatet()+"/"+e.getHeuret().split(":")[0])){
+                listWithoutDuplicates.add(e);
+            };
+            //System.out.println("matricule: "+e.getMatriculet());
         });
         Predicate<MessageBean> t = value -> value.getMatriculet().equals(matricule) && value.getDatet().contains(date);
-        return l.stream().filter(t).collect(Collectors.toList());
+        return listWithoutDuplicates.stream().filter(t).collect(Collectors.toList());
     }
 
 
@@ -54,6 +59,7 @@ public class ArchiveController {
     public List<MessageBean> getArchive2(@PathParam("matricule") String matricule, @PathParam("date") String date,
                                    @PathParam("heure") String heure) {
         List<MessageBean> l = modelMessage.getArchiveConversation(matricule);
+        Collections.reverse(l);
         Predicate<MessageBean> t = value -> value.getMatriculet().equals(matricule) && value.getDatet().contains(date)
                 && value.getHeuret().contains(heure);
         //
