@@ -65,10 +65,10 @@ public class ModelMessage {
         }
     }
 
-    public List<MessageBean> getArchiveConversation(String matricule, String date){
+    public List<MessageBean> getArchiveConversation(String matricule){
         List<MessageBean> liste = new LinkedList<>();
         //
-        String requete = "SELECT * FROM magasin where matriculet = '"+matricule+"' and datet = '"+date+"'";
+        String requete = "SELECT * FROM archive where matriculet = '"+matricule+"'";
 
         try {
             Statement stmt = seConnecter.con.createStatement();
@@ -77,6 +77,7 @@ public class ModelMessage {
             boolean encore = résultats.next();
 
             while (encore) {
+                System.out.println("C'est: "+résultats.getString(2));
                 liste.add(
                         new MessageBean(
                                 résultats.getString(1),

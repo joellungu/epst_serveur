@@ -6,6 +6,10 @@ import org.epst.chat.Message;
 import org.epst.models.ModelMessage;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.ws.rs.PathParam;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class MessageBeanRepository implements PanacheRepository<MessageBean> {
@@ -47,5 +51,17 @@ public class MessageBeanRepository implements PanacheRepository<MessageBean> {
 
         thread.start();
 
+    }
+
+    public List<MessageBean> getArchive1(@PathParam("matricule") String matricule, @PathParam("date") String date) {
+        List<MessageBean> l = modelMessage.getArchiveConversation(matricule);
+
+        System.out.println("matricule: " + matricule);
+        System.out.println("taille: " + l.size());
+        l.forEach((e) -> {
+            System.out.println("matricule: " + e.getMatriculet());
+        });
+        Predicate<MessageBean> t = value -> value.getMatriculet().equals(matricule) && value.getDatet().contains(date);
+        return l.stream().filter(t).collect(Collectors.toList());
     }
 }

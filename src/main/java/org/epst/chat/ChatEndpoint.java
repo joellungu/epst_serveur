@@ -5,22 +5,15 @@ package org.epst.chat;
 //import javax.ws.rs.PathParam;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.function.Predicate;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.transaction.Transactional;
 import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -31,11 +24,8 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.epst.beans.MessageBean;
 import org.epst.beans.MessageBeanRepository;
-import org.epst.models.ModelMessage;
 
 
 @ServerEndpoint(
@@ -44,6 +34,8 @@ import org.epst.models.ModelMessage;
   encoders = MessageEncoder.class
 )
 public class ChatEndpoint {
+
+    private static Set<String> listeConvAss = new HashSet<>();
 
     @Inject
     MessageBeanRepository messageBeanRepository;
@@ -129,13 +121,14 @@ public class ChatEndpoint {
                   }
               });
               try {
-                    //
-                    //__________________________
-                    s.getAsyncRemote().sendText(obj.writeValueAsString(message));
-                    //
-                    System.out.println("Cool c'est bon! 1");
-                    //
-                    messageBeanRepository.saveData(message);
+                //
+                listeConvAss.add(message.getHostId()+":"+message.getClientId());
+                //__________________________
+                s.getAsyncRemote().sendText(obj.writeValueAsString(message));
+                //
+                System.out.println("Cool c'est bon! 1");
+                //
+                messageBeanRepository.saveData(message);
               } catch (JsonProcessingException e) {
                 // 
                 e.printStackTrace();
@@ -172,6 +165,7 @@ public class ChatEndpoint {
                   //__________________________
                    */
                   //
+                  listeConvAss.add(message.getHostId()+":"+message.getClientId());
                   //messageBeanRepository.saveData(message);
                     s.getAsyncRemote().sendText(obj.writeValueAsString(message));
                     System.out.println("Cool c'est bon!");
@@ -205,6 +199,19 @@ public class ChatEndpoint {
         message.setFrom(users.get(session.getId()));
         message.setContent("Disconnected!");
         //broadcast(message);
+        String[] l_conv = new String[2];
+        listeConvAss.forEach((e)->{
+            if(e.contains(session.getId())){
+                var t = new AtomicReferenceArray<>(e.split(":"));
+                l_conv[0] = t.get(0);
+                l_conv[1] = t.get(1);
+                System.out.println(l_conv[0]);
+                System.out.println(l_conv[1]);
+            }
+        });
+        closeConv(l_conv[0]);//
+        //
+        closeConv(l_conv[1]);//
         //
         users.remove(users.get(session.getId()));
         //
@@ -232,7 +239,36 @@ public class ChatEndpoint {
             }
         });
     }
-    
+    private void closeConv(String session){
+        //
+        sessions.forEach((s)->{
+            if(s.getId().equals(session)){
+                listeUsers.forEach((u)->{//
+                    if(u.get("clientId").equals(session)){
+                        u.put("conversation", "false");
+                        listeUsers.remove(u);
+                        //u.put("clientId", session.getId());
+                    }else{
+                        u.put("conversation", "false");
+                    }
+                });
+                try {
+                    ObjectMapper obj = new ObjectMapper();
+                    //
+                    Message message = new Message();
+                    message.setConversation(false);
+                    s.getAsyncRemote().sendText(obj.writeValueAsString(message));
+                    System.out.println("Cool c'est bon!");
+                    //
+                    //messageBeanRepository.saveData(message);
+                } catch (JsonProcessingException e) {
+                    //
+                    e.printStackTrace();
+                    //
+                }
+            }
+        });
+    }
 }
 
 /*
