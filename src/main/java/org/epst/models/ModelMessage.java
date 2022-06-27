@@ -107,6 +107,48 @@ public class ModelMessage {
         return liste;
     }
 
+    public List<MessageBean> getArchiveConversation2(String matricule){
+        List<MessageBean> liste = new LinkedList<>();
+        //
+        String requete = "SELECT * FROM archive where hostidt = '"+matricule+"'";
+
+        try {
+            Statement stmt = seConnecter.con.createStatement();
+            résultats = stmt.executeQuery(requete);
+            //
+            boolean encore = résultats.next();
+
+            while (encore) {
+                System.out.println("C'est: "+résultats.getString(2));
+                liste.add(
+                        new MessageBean(
+                                résultats.getString(1),
+                                résultats.getString(2),
+                                résultats.getString(3),
+                                résultats.getString(4),
+                                résultats.getString(5),
+                                résultats.getBoolean(6),
+                                résultats.getBoolean(7),
+                                résultats.getString(8),
+                                résultats.getBoolean(9),
+                                résultats.getString(10),
+                                résultats.getString(11),
+                                résultats.getString(12)
+                        )
+                );
+
+                System.out.println("La langueur: "+liste.size());
+                encore = résultats.next();
+            }
+            //
+        } catch (SQLException e) {
+            //traitement de l'exception
+            System.out.println(e);
+        };
+        //
+        return liste;
+    }
+
     private Long getId(){
         Random random = new Random();
         long random63BitLong = random.nextLong();

@@ -36,7 +36,6 @@ import org.epst.beans.MessageBeanRepository;
 public class ChatEndpoint {
 
     private static Set<String> listeConvAss = new HashSet<>();
-
     @Inject
     MessageBeanRepository messageBeanRepository;
 

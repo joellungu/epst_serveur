@@ -58,9 +58,10 @@ public class MagasinControlleur {
         System.out.println("Element type: "+type);
         //
         List<Magasin> listeU = modelMagasin.getAllMagasin(type);
-        
+        //
         //listeU.forEach((u)->{
-        //  System.out.println("Element nom: "+u.nom);
+        //  System.out
+        //        .println("Element nom: "+u.nom);
         //});
         //
         //Todo todo = new Todo();
