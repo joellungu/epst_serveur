@@ -97,43 +97,33 @@ public class ModelMagasin {
     //
     public List<Magasin> getAllMagasin(String type){
         List<Magasin> liste = new LinkedList<>();
-        System.out.println("le type vaut: "+type);
-        String requete = "SELECT id, libelle, description, piecejointe, types, date_mise_en_ligne, extention FROM magasin where types = '"+type+"'";
+        System.out.println("le type vaut: "+type);//piecejointe,
+        String requete = "SELECT id, libelle, description, types, date_mise_en_ligne, extention FROM magasin where types = '"+type+"'";
 
         try {
             Statement stmt = con.createStatement();
             résultats = stmt.executeQuery(requete);
             //
-            boolean encore = résultats.next();
+            //boolean encore = résultats.next();
 
-            while (encore) {
-                /*
-                System.out.print("****id: "+résultats.getInt(1)+"_ ad:"+":\n__:\n"+
-                résultats.getInt(1)+":__:id\n"+
-                résultats.getString(2)+":__:adresse\n"+
-                résultats.getString(3)+":__:email\n"+
-                résultats.getString(4)+":__:nom\n"+
-                résultats.getString(5)+":__:numero\n"+
-                résultats.getString(6)+":__:postnom\n"
-                );
-                */
+            while (résultats.next()) {
                 liste.add(
                     new Magasin(
                         résultats.getLong(1),
                         résultats.getString(2),
                         résultats.getString(3),
-                        résultats.getBytes(4),
+                        null,
+                        résultats.getString(4),
                         résultats.getString(5),
-                        résultats.getString(6),
-                        résultats.getString(7)
+                        résultats.getString(6)
                     )
                 );
 
                 System.out.println("La langueur: "+liste.size());
-                encore = résultats.next();
+                //encore = résultats.next();
             }
-            //
-        } catch (SQLException e) {
+
+        } catch (Exception e) {
             //traitement de l'exception
             System.out.println(e);
         };
