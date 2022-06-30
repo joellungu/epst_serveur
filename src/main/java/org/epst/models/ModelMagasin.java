@@ -304,7 +304,7 @@ public class ModelMagasin {
             t = statement.executeUpdate();
 
         }catch(Exception ex){
-            System.out.println("erreur du à: "+ex.getMessage());
+            System.out.println("erreur du à truc: "+ex.getMessage());
             t = 0;
         }
         return t;

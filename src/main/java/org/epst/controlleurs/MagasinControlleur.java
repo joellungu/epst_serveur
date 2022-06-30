@@ -81,13 +81,13 @@ public class MagasinControlleur {
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response savetMagasint(Magasin Magasin) {
-        Long t = modelMagasin.saveMagasin(Magasin);
+    public Response savetMagasint(Magasin magasin) {
+        Long t = modelMagasin.saveMagasin(magasin);
         System.out.println("votre element: "+
-        Magasin.getDate()+":\n__:"+
-            Magasin.getDescription()+":\n__:"+
-            Magasin.getId()+":\n__:"+
-            Magasin.getLibelle()+":\n__:"
+        magasin.getDate()+":\n__:"+
+        magasin.getDescription()+":\n__:"+
+        magasin.getId()+":\n__:"+
+        magasin.getLibelle()+":\n__:"
         );
         //
         
@@ -105,6 +105,20 @@ public class MagasinControlleur {
         ///json.put("save", "ok");
         
         return Response.status(Response.Status.CREATED).entity(json).build();
+    }
+
+    @POST
+    @Path("/savepice/{id}")
+    @Consumes(MediaType.APPLICATION_OCTET_STREAM)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response savePieceJointeMaga(@PathParam("id") Long id,byte[] requestBody){
+        System.out.println(requestBody);
+        //for(int t = 0; t < requestBody.length; t++){
+        //    System.out.println(requestBody[t]);
+        //}
+        ModelMagasin modelMagasin = new ModelMagasin();
+        int t = modelMagasin.miseaJourMagasin(id, requestBody);
+        return Response.ok().entity("Ok").build();//service.sendMultipartData("");
     }
 
     @PUT()

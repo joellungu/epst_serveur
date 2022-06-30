@@ -50,20 +50,17 @@ public class PiecejointeControlleur {
     @Produces(MediaType.APPLICATION_JSON)
     public Response savetPlainte(@PathParam("piecejointe_id") Long piecejointe_id, @PathParam("type") String type, byte[] piecejointe) {
         int t = modelPlainte.savePiecejointe(piecejointe_id, type, piecejointe);
-        
+        //
         System.out.println("piecejointe_id: "+piecejointe_id+"// type "+type+"");
         System.out.println("votre element piece jointe_______: "+
         piecejointe_id+":\n__:"+
         type+":\n__:"
         );
-        
         //
-
         ObjectNode json = mapper.createObjectNode();
         //
         //json.put("status", "ok");
         json.put("save", t);
-        
         return Response.status(Response.Status.CREATED).entity(json).build();
     }
 
