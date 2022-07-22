@@ -71,7 +71,6 @@ public class MagasinControlleur {
         //Todo todo2 = new Todo();
         //todo2.setSummary("Application JSON ");
         //todo2.setDescription("Application JSON ");
-
         return listeU;//Arrays.asList(todo,todo2);
     }
 

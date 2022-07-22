@@ -4,12 +4,21 @@ package org.epst.controlleurs;
 import java.util.HashMap;
 import java.util.List;
 
+import com.mailjet.client.ClientOptions;
+import com.mailjet.client.MailjetClient;
+import com.mailjet.client.MailjetRequest;
+import com.mailjet.client.MailjetResponse;
+import com.mailjet.client.errors.MailjetException;
+import com.mailjet.client.errors.MailjetSocketTimeoutException;
+import com.mailjet.client.resource.Emailv31;
 import org.epst.beans.NoteTraitementBean;
 import org.epst.beans.Plainte;
 import org.epst.models.ModelNoteTraitement;
 import org.epst.models.ModelPlainte;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.ws.rs.Consumes;
 //import javax.ws.rs.DELETE;
@@ -86,13 +95,37 @@ public class PlainteControlleur {
     @POST()
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response savetPlainte(Plainte Plainte) {
-        Long t = modelPlainte.savePlainte(Plainte);
+    public Response savetPlainte(Plainte plainte) {
+        Long t = modelPlainte.savePlainte(plainte);
+        if(plainte.getId_tiquet().equals("1")){
+            System.out.println("Message: "+plainte.getMessage());
+            Thread th = new Thread() {
+                public void run() {
+                    //
+                    try {
+                        send("",plainte.getMessage());
+                        System.out.println("Email envoyé");
+                    } catch (MailjetException e) {
+                        System.out.println("Email non envoyé");
+                        throw new RuntimeException(e);
+                    } catch (MailjetSocketTimeoutException e) {
+                        System.out.println("Email non envoyé");
+                        throw new RuntimeException(e);
+                    }
+                    //
+
+                }
+            };
+            th.start();
+        }else{
+            System.out.println("Autre ethiquette: "+plainte.getId_tiquet());
+            System.out.println("Autre ethiquette: "+plainte.getMessage());
+        }
         System.out.println("votre element: "+
-        Plainte.getTelephone()+":\n__:"+
-            Plainte.getDate()+":\n__:"+
-            Plainte.getEmail()+":\n__:"+
-            Plainte.getEnvoyeur()+":\n__:"
+                plainte.getTelephone()+":\n__:"+
+                plainte.getDate()+":\n__:"+
+                plainte.getEmail()+":\n__:"+
+                plainte.getEnvoyeur()+":\n__:"
         );
         //
 
@@ -139,5 +172,32 @@ public class PlainteControlleur {
         ObjectNode json = mapper.createObjectNode();
         json.put("status", "v");
         return Response.status(Response.Status.CREATED).entity("ok").build();
+    }
+
+    public void send(String from, String message) throws MailjetException, MailjetSocketTimeoutException {
+        MailjetClient client;
+        MailjetRequest request;
+        MailjetResponse response;
+        //
+        //StringBuilder message = new StringBuilder();
+        //
+        client = new MailjetClient("6f319c7eabca73a75926580bf1291102",
+                "7f4ef3362f04f20e9fcbbdaf5fea596e", new ClientOptions("v3.1"));
+        request = new MailjetRequest(Emailv31.resource)
+                .property(Emailv31.MESSAGES, new JSONArray()
+                        .put(new JSONObject()
+                                .put(Emailv31.Message.FROM, new JSONObject()
+                                        .put("Email", "mmuseghe@gmail.com")
+                                        .put("Name", "Pierre Museghe"))
+                                .put(Emailv31.Message.TO, new JSONArray()
+                                        .put(new JSONObject()
+                                                .put("Email", "lungujoel138@gmail.com")
+                                                .put("Name", "Joel Lungu")))
+                                .put(Emailv31.Message.SUBJECT, "Violence basé sur le genre")
+                                .put(Emailv31.Message.TEXTPART, "Contenu:\n"+message)
+                                .put(Emailv31.Message.HTMLPART, "<h3>Voici le lien du fichier<br><br><a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3><h4>"+message+"</h4>")));
+        response = client.post(request);
+        System.out.println(response.getStatus());
+        System.out.println(response.getData());
     }
 }
