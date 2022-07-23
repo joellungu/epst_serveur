@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 @Accessors(chain=true)
 //@AllArgsConstructor
 @Getter
@@ -54,5 +56,5 @@ public class Plainte {
     public String reference;
     public String date;
     public String province;
-    
+
 }

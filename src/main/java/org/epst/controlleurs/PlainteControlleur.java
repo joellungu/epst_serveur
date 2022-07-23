@@ -97,30 +97,14 @@ public class PlainteControlleur {
     @Produces(MediaType.APPLICATION_JSON)
     public Response savetPlainte(Plainte plainte) {
         Long t = modelPlainte.savePlainte(plainte);
+        /*
         if(plainte.getId_tiquet().equals("1")){
-            System.out.println("Message: "+plainte.getMessage());
-            Thread th = new Thread() {
-                public void run() {
-                    //
-                    try {
-                        send("",plainte.getMessage());
-                        System.out.println("Email envoyé");
-                    } catch (MailjetException e) {
-                        System.out.println("Email non envoyé");
-                        throw new RuntimeException(e);
-                    } catch (MailjetSocketTimeoutException e) {
-                        System.out.println("Email non envoyé");
-                        throw new RuntimeException(e);
-                    }
-                    //
 
-                }
-            };
-            th.start();
         }else{
             System.out.println("Autre ethiquette: "+plainte.getId_tiquet());
             System.out.println("Autre ethiquette: "+plainte.getMessage());
         }
+        */
         System.out.println("votre element: "+
                 plainte.getTelephone()+":\n__:"+
                 plainte.getDate()+":\n__:"+
@@ -174,30 +158,8 @@ public class PlainteControlleur {
         return Response.status(Response.Status.CREATED).entity("ok").build();
     }
 
-    public void send(String from, String message) throws MailjetException, MailjetSocketTimeoutException {
-        MailjetClient client;
-        MailjetRequest request;
-        MailjetResponse response;
-        //
-        //StringBuilder message = new StringBuilder();
-        //
-        client = new MailjetClient("6f319c7eabca73a75926580bf1291102",
-                "7f4ef3362f04f20e9fcbbdaf5fea596e", new ClientOptions("v3.1"));
-        request = new MailjetRequest(Emailv31.resource)
-                .property(Emailv31.MESSAGES, new JSONArray()
-                        .put(new JSONObject()
-                                .put(Emailv31.Message.FROM, new JSONObject()
-                                        .put("Email", "mmuseghe@gmail.com")
-                                        .put("Name", "Pierre Museghe"))
-                                .put(Emailv31.Message.TO, new JSONArray()
-                                        .put(new JSONObject()
-                                                .put("Email", "lungujoel138@gmail.com")
-                                                .put("Name", "Joel Lungu")))
-                                .put(Emailv31.Message.SUBJECT, "Violence basé sur le genre")
-                                .put(Emailv31.Message.TEXTPART, "Contenu:\n"+message)
-                                .put(Emailv31.Message.HTMLPART, "<h3>Voici le lien du fichier<br><br><a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3><h4>"+message+"</h4>")));
-        response = client.post(request);
-        System.out.println(response.getStatus());
-        System.out.println(response.getData());
-    }
 }
+/*
+"<h3>Voici le lien du fichier<br><br><a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3><h4>"+message+"</h4>"
+<video width="320" height="240" autoplay><source src="movie.mp4" type="https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"></video>
+ */

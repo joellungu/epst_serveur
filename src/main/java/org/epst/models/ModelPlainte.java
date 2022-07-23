@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import org.epst.beans.Magasin;
 import org.epst.beans.Piecejointe;
 import org.epst.beans.Plainte;
 
@@ -50,7 +51,6 @@ public class ModelPlainte {
             String piecejointe_id,
             String statut
             */
-
             while (encore) {
                 Plainte = new Plainte(
                     résultats.getLong(1),
@@ -77,6 +77,52 @@ public class ModelPlainte {
         return Plainte;
     }
     //
+    public Plainte getPlainteById(Long id){
+        Plainte Plainte = new Plainte();
+        String requete = "SELECT * FROM depot_plainte where piecejointe_id = '"+id+"'";
+        //
+        try {
+            Statement stmt = con.createStatement();
+            résultats = stmt.executeQuery(requete);
+            //
+            boolean encore = résultats.next();
+            /*
+            int id,
+            String date,
+            String telephone,
+            String email,
+            String province,
+            String id_tiquet,
+            String message,
+            String piecejointe_id,
+            String statut
+            */
+            while (encore) {
+                System.out.println("Du à: "+résultats.getLong(1));
+                Plainte = new Plainte(
+                        résultats.getLong(1),
+                        résultats.getString(2),
+                        résultats.getString(3),
+                        résultats.getString(4),
+                        résultats.getString(5),
+                        résultats.getString(6),
+                        résultats.getString(7),
+                        résultats.getString(8),
+                        résultats.getString(9),
+                        résultats.getString(10),
+                        résultats.getString(11),
+                        résultats.getString(12)
+                );
+                //
+                System.out.println();
+                encore = résultats.next();
+            }
+            //
+        } catch (SQLException e) {
+            //traitement de l'exception
+        };
+        return Plainte;
+    }
     public List<Plainte> getAllPlainte(int statut){
         List<Plainte> liste = new LinkedList<>();
         System.out.println("le type vaut: "+statut);
@@ -199,8 +245,6 @@ public class ModelPlainte {
         return liste;
     }
     //
-    
-    //
     public List<Piecejointe> getAllPiecejointe(Long piecejointe_id){
         List<Piecejointe> liste = new LinkedList<>();
         System.out.println("le type vaut: "+piecejointe_id);
@@ -283,7 +327,7 @@ public class ModelPlainte {
         return piecejointe_id;
     }
 
-    public int savePiecejointe(Long piecejointe_id, String type, byte[] piecejointe){
+    public int savePiecejointe(Long id, Long piecejointe_id, String type, byte[] piecejointe){
         int t = 0;
 
         //int piecejointe_id = 0;
@@ -297,7 +341,7 @@ public class ModelPlainte {
     
             PreparedStatement statement = con.prepareStatement(sql);
             //statement.setInt(1, piecejointe.getId());
-            statement.setLong(1, getId()); 
+            statement.setLong(1, id);
             statement.setLong(2, piecejointe_id);
             statement.setBytes(3, piecejointe);
             statement.setString(4, type);
@@ -318,6 +362,36 @@ public class ModelPlainte {
         }
 
         return t;
+    }
+
+    public byte[] getPieceJointe(Long id){
+        int t = 0;
+        byte[] piece = new byte[0];
+
+        //int piecejointe_id = 0;
+
+        //
+        try{
+            //piecejointe_id = getId();
+            //
+            String sql = "SELECT donne from piecejointe where piecejointe_id = '"+id+"'";
+
+            Statement stmt = con.createStatement();
+            résultats = stmt.executeQuery(sql);
+            while (résultats.next()) {
+                piece = résultats.getBytes(1);
+                break;
+            }
+
+        }catch(Exception ex){
+            System.out.println("erreur du à: "+ex);
+            System.out.println("erreur du à: "+ex.getMessage());
+            System.out.println("erreur du à: "+ex.getLocalizedMessage());
+            System.out.println("erreur du à: "+ex.getCause());
+            System.out.println("erreur du à: "+ex.getStackTrace());
+            t = 0;
+        }
+        return piece;
     }
 
     public int miseaJourPlainte(Plainte Plainte){

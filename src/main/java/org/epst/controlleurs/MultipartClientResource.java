@@ -40,7 +40,7 @@ public class MultipartClientResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String sendFile1(@PathParam("piecejointe_id") Long piecejointe_id, @PathParam("type") String type,byte[] requestBody) throws Exception {//FileUploadForm data
         //System.out.println(magasin);
-        int t = modelPlainte.savePiecejointe(piecejointe_id, type, requestBody);
+        int t = modelPlainte.savePiecejointe(0L,piecejointe_id, type, requestBody);
         //
         System.out.println("piecejointe_id: "+piecejointe_id+"// type "+type+"");
         System.out.println("votre element piece jointe_______: "+
